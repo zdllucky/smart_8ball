@@ -3,6 +3,10 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_8ball/app/shared/functions/showDialog.dart';
+
+import 'f_builder_c_t_field.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -16,102 +20,87 @@ class _SignUpFormState extends State<SignUpForm> {
   bool _isLoading = false;
   bool _canSubmit = false;
 
+  void validateFields() => setState(
+      () => _canSubmit = _formKey.currentState?.saveAndValidate() ?? false);
+
   @override
   Widget build(BuildContext context) {
+    void popLocal() {
+      context.go('/');
+    }
+
+    Future<T?> sDialog<T>(
+            {required Text alert,
+            Widget? content,
+            bool? barrierDismissible,
+            List<CupertinoDialogAction>? actions}) =>
+        showAlertDialog<T>(context,
+            alert: alert,
+            content: content,
+            barrierDismissible: barrierDismissible,
+            actions: actions);
+
     Future<void> handleSubmit() async {
       setState(() => _isLoading = true);
       if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
 
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: _formKey.currentState?.instantValue['email'],
-              password: _formKey.currentState?.instantValue['password']);
+      try {
+        final credential = EmailAuthProvider.credential(
+            email: _formKey.currentState?.instantValue['email'],
+            password: _formKey.currentState?.instantValue['password']);
 
-      print(userCredential);
+        await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
 
-      setState(() => _isLoading = true);
+        sDialog(
+          alert: const Text("Registration success!"),
+          content: Text(
+              "We need to ensure this email belongs to you. We've sent you a message to \"${_formKey.currentState?.instantValue['email']}\", please check it."),
+        ).whenComplete(popLocal);
+      } on FirebaseAuthException catch (e) {
+        sDialog(
+            alert: const Text("Sorry!"), content: Text(e.message ?? e.code));
+      } finally {
+        setState(() => _isLoading = false);
+      }
     }
 
     return FormBuilder(
       key: _formKey,
-      onChanged: () => setState(
-          () => _canSubmit = _formKey.currentState?.saveAndValidate() ?? false),
+      onChanged: validateFields,
       autovalidateMode: AutovalidateMode.always,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            FormBuilderField(
-              name: "email",
+            FBuilderCTField(
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(),
                 FormBuilderValidators.email()
               ]),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              builder: (FormFieldState<String?> field) {
-                return CupertinoFormRow(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  error: field.errorText != null
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text(field.errorText!),
-                        )
-                      : null,
-                  child: CupertinoTextField(
-                      placeholder: "Email",
-                      onChanged: (value) => field.didChange(value)),
-                );
-              },
+              name: 'email',
+              placeholder: 'Email',
             ),
-            FormBuilderField(
-              name: "password",
+            FBuilderCTField(
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(),
                 FormBuilderValidators.minLength(8),
                 FormBuilderValidators.maxLength(64),
               ]),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              builder: (FormFieldState<String?> field) {
-                return CupertinoFormRow(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  error: field.errorText != null
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text(field.errorText!),
-                        )
-                      : null,
-                  child: CupertinoTextField(
-                      placeholder: "Password",
-                      obscureText: true,
-                      onChanged: (value) => field.didChange(value)),
-                );
-              },
+              name: 'password',
+              obscureText: true,
+              placeholder: 'Password',
             ),
-            FormBuilderField(
-              name: "password_confirm",
+            FBuilderCTField(
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(),
                 FormBuilderValidators.equal(
                     _formKey.currentState?.instantValue['password'] ?? '',
                     errorText: 'Passwords do not match.')
               ]),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              builder: (FormFieldState<String?> field) {
-                return CupertinoFormRow(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  error: field.errorText != null
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text(field.errorText!),
-                        )
-                      : null,
-                  child: CupertinoTextField(
-                      placeholder: "Confirm password",
-                      obscureText: true,
-                      onChanged: (value) => field.didChange(value)),
-                );
-              },
+              name: 'password_confirm',
+              obscureText: true,
+              placeholder: 'Confirm password',
             ),
             // TODO: Offer term of use to user
             const Spacer(),
@@ -147,13 +136,13 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
             CupertinoButton.filled(
                 borderRadius: BorderRadius.circular(100),
-                onPressed: _canSubmit ? handleSubmit : null,
+                onPressed: _canSubmit && !_isLoading ? handleSubmit : null,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(FluentIcons.person_add_20_regular),
-                    SizedBox(width: 4),
-                    Text('Sign up'),
+                  children: [
+                    const Icon(FluentIcons.person_add_20_regular),
+                    const SizedBox(width: 4),
+                    Text(_isLoading ? 'Creating user' : 'Sign up'),
                   ],
                 )),
           ],

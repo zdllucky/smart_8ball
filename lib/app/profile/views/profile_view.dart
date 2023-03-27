@@ -62,7 +62,7 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               largeTitle: Center(
                 child: GlowText(
-                  '${_user != null && !_user!.isAnonymous ? _user!.displayName : 'Anonymous'}  ',
+                  '${_user!.isAnonymous ? 'Anonymous' : _user!.displayName ?? "Neal Oliver"}  ',
                   style: TextStyle(
                       fontFamily: GoogleFonts.averiaSerifLibre().fontFamily,
                       fontWeight: FontWeight.w900,

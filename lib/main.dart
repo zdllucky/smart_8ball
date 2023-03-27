@@ -15,12 +15,14 @@ Future<void> main() async {
 
   final fAuth = FirebaseAuth.instance;
 
-  if (kDebugMode) await fAuth.useAuthEmulator('192.168.31.149', 9099);
+  if (kDebugMode) await fAuth.useAuthEmulator('localhost', 9099);
 
   await configureDependencies();
 
   if (fAuth.currentUser == null || !fAuth.currentUser!.emailVerified) {
-    await fAuth.signInAnonymously();
+    try {
+      await fAuth.signInAnonymously();
+    } finally {}
   }
 
   runApp(CupertinoApp.router(
