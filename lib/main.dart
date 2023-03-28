@@ -19,7 +19,7 @@ Future<void> main() async {
 
   await configureDependencies();
 
-  if (fAuth.currentUser == null || !fAuth.currentUser!.emailVerified) {
+  if (fAuth.currentUser == null /*|| !fAuth.currentUser!.emailVerified*/) {
     try {
       await fAuth.signInAnonymously();
     } finally {}

@@ -107,7 +107,6 @@ class _SignUpFormState extends State<SignUpForm> {
             FormBuilderField<bool>(
               name: 'terms',
               initialValue: false,
-              onChanged: (val) => debugPrint(val.toString()),
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(),
                 FormBuilderValidators.equal(true)

@@ -23,7 +23,7 @@ class _ProfileViewState extends State<ProfileView> {
   void initState() {
     _userListener = FirebaseAuth.instance
         .userChanges()
-        .listen((u) => setState(() => _user = u));
+        .listen((u) => setState(() => print(_user = u)));
     super.initState();
   }
 
