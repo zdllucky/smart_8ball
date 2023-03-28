@@ -6,6 +6,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_8ball/app/shared/functions/showDialog.dart';
 
+import '../../shared/widgets/rounded_c_button.dart';
 import 'f_builder_c_t_field.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -133,17 +134,12 @@ class _SignUpFormState extends State<SignUpForm> {
                 );
               },
             ),
-            CupertinoButton.filled(
-                borderRadius: BorderRadius.circular(100),
-                onPressed: _canSubmit && !_isLoading ? handleSubmit : null,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(FluentIcons.person_add_20_regular),
-                    const SizedBox(width: 4),
-                    Text(_isLoading ? 'Creating user' : 'Sign up'),
-                  ],
-                )),
+            RoundedCButton(
+              padding: null,
+              onPressed: _canSubmit && !_isLoading ? handleSubmit : null,
+              icon: FluentIcons.person_add_20_regular,
+              text: _isLoading ? 'Creating user' : 'Sign up',
+            ),
           ],
         ),
       ),
