@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:smart_8ball/app/router.dart';
 
+import 'app/router/__.dart';
 import 'firebase_options.dart';
 import 'infrastructure/di/injections.dart';
 
