@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_glow/flutter_glow.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../shared/widgets/themed_c_s_navigation_bar.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -48,33 +49,13 @@ class _ProfileViewState extends State<ProfileView> {
         )),
         child: CustomScrollView(
           slivers: [
-            CupertinoSliverNavigationBar(
-              automaticallyImplyLeading: true,
-              previousPageTitle: "Back",
-              stretch: true,
-              backgroundColor: const Color(0x00000000),
-              middle: const Text(
-                'Welcome back,',
-                style: TextStyle(
-                  fontWeight: FontWeight.w200,
-                  fontSize: 14,
-                ),
-              ),
-              largeTitle: Center(
-                child: GlowText(
+            ThemedCSNavigationBar(
+              middleText: 'Welcome back,',
+              largeTitleText:
                   '${_user!.isAnonymous ? 'Anonymous' : _user!.displayName ?? "Neal Oliver"}  ',
-                  style: TextStyle(
-                      fontFamily: GoogleFonts.averiaSerifLibre().fontFamily,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 45,
-                      color: const Color.fromRGBO(247, 223, 208, 1.0)),
-                  glowColor: CupertinoColors.systemYellow.elevatedColor
-                      .withOpacity(.5),
-                  blurRadius: 10,
-                ),
-              ),
             ),
             SliverFillRemaining(
+              hasScrollBody: false,
               child: Column(
                 children: [
                   Padding(
