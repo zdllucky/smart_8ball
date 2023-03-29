@@ -1,24 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_8ball/app/shared/widgets/dark_blue_c_p_scaffold.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      child: Container(
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-          colors: [
-            Color(0xff161A24),
-            Color(0xff0f0f1c),
-            Color(0xff0d0d0e),
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        )),
+  Widget build(BuildContext context) => DarkBlueCPScaffold(
         child: CustomScrollView(
           slivers: [
             CupertinoSliverNavigationBar(
@@ -41,7 +30,5 @@ class SignInView extends StatelessWidget {
             const SliverFillRemaining()
           ],
         ),
-      ),
-    );
-  }
+      );
 }
