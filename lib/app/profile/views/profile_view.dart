@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:smart_8ball/app/shared/widgets/dark_blue_c_p_scaffold.dart';
 
 import '../../shared/widgets/themed_c_s_navigation_bar.dart';
 import '../widgets/anonymous_block.dart';
@@ -33,31 +34,19 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      child: Container(
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-          colors: [
-            Color(0xff161A24),
-            Color(0xff0f0f1c),
-            Color(0xff0d0d0e),
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        )),
-        child: CustomScrollView(
-          slivers: [
-            ThemedCSNavigationBar(
-              middleText: 'Welcome back,',
-              largeTitleText:
-                  '${_user!.isAnonymous ? 'Anonymous' : _user!.displayName ?? "Neal Oliver"}  ',
-            ),
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: _user!.isAnonymous ? const AnonymousBlock() : null,
-            )
-          ],
-        ),
+    return DarkBlueCPScaffold(
+      child: CustomScrollView(
+        slivers: [
+          ThemedCSNavigationBar(
+            middleText: 'Welcome back,',
+            largeTitleText:
+                '${_user!.isAnonymous ? 'Anonymous' : _user!.displayName ?? "Neal Oliver"}  ',
+          ),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: _user!.isAnonymous ? const AnonymousBlock() : null,
+          )
+        ],
       ),
     );
   }

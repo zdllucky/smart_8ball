@@ -10,13 +10,18 @@ class ThemedCSNavigationBar extends StatelessWidget {
       this.largeTitleText,
       this.automaticallyImplyLeading = true,
       this.trailing,
-      this.leading});
+      this.leading,
+      this.largeTitleCentered = true});
   final String previousPageTitle;
   final String middleText;
   final String? largeTitleText;
   final bool automaticallyImplyLeading;
   final Widget? trailing;
   final Widget? leading;
+  final bool largeTitleCentered;
+
+  Widget ifCenteredChild(Widget child) =>
+      largeTitleCentered ? Center(child: child) : child;
 
   @override
   Widget build(BuildContext context) => CupertinoSliverNavigationBar(
@@ -32,17 +37,16 @@ class ThemedCSNavigationBar extends StatelessWidget {
         middle: Text(
           middleText,
           style: const TextStyle(
-            fontWeight: FontWeight.w200,
-            fontSize: 14,
+            fontWeight: FontWeight.w100,
           ),
         ),
-        largeTitle: Center(
-          child: GlowText(
+        largeTitle: ifCenteredChild(
+          GlowText(
             largeTitleText ?? middleText,
             style: TextStyle(
                 fontFamily: GoogleFonts.averiaSerifLibre().fontFamily,
-                fontWeight: FontWeight.w900,
-                fontSize: 45,
+                fontWeight: largeTitleCentered ? FontWeight.w900 : null,
+                fontSize: largeTitleCentered ? 45 : null,
                 color: const Color.fromRGBO(247, 223, 208, 1.0)),
             glowColor:
                 CupertinoColors.systemYellow.elevatedColor.withOpacity(.5),
