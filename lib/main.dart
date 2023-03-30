@@ -10,6 +10,7 @@ import 'infrastructure/di/injections.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: 'smart-8ball',
     options: DefaultFirebaseOptions.currentPlatform,
   );
 

@@ -51,19 +51,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC1UI-2OGct5p96bS25sAs2pdeubxlD8vM',
-    appId: '1:819882374666:android:a721ad6b9c3d15c58591f3',
+    appId: '1:819882374666:android:ba497ee6e6a50bfe8591f3',
     messagingSenderId: '819882374666',
     projectId: 'smart-8ball',
+    databaseURL: 'https://smart-8ball-default-rtdb.firebaseio.com',
     storageBucket: 'smart-8ball.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB0PZBn5MF9QSOQJ2xqiqnmBdnVqh3fxhM',
-    appId: '1:819882374666:ios:99b3cd42f43e0b618591f3',
+    appId: '1:819882374666:ios:91646335fda4c68b8591f3',
     messagingSenderId: '819882374666',
     projectId: 'smart-8ball',
+    databaseURL: 'https://smart-8ball-default-rtdb.firebaseio.com',
     storageBucket: 'smart-8ball.appspot.com',
-    iosClientId: '819882374666-b4n8aigkm8fqv3k7r5aj2unnpnt18po9.apps.googleusercontent.com',
-    iosBundleId: 'com.zdllucky.smart8ball',
+    iosClientId: '819882374666-f52gkt8veg8qef631jfj2bmgp1n87b6g.apps.googleusercontent.com',
+    iosBundleId: 'quest.ponder8.ponder8',
   );
 }
