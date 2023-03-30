@@ -19,7 +19,9 @@ Future<void> main() async {
 
   await configureDependencies();
 
-  if (fAuth.currentUser == null /*|| !fAuth.currentUser!.emailVerified*/) {
+  await fAuth.signOut();
+
+  if (fAuth.currentUser == null) {
     try {
       await fAuth.signInAnonymously();
     } finally {}

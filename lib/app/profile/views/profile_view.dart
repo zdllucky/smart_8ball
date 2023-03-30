@@ -22,7 +22,7 @@ class _ProfileViewState extends State<ProfileView> {
   void initState() {
     _userListener = FirebaseAuth.instance
         .userChanges()
-        .listen((u) => setState(() => print(_user = u)));
+        .listen((u) => setState(() => _user = u));
     super.initState();
   }
 
@@ -39,6 +39,15 @@ class _ProfileViewState extends State<ProfileView> {
         slivers: [
           ThemedCSNavigationBar(
             middleText: 'Welcome back,',
+            trailing: !_user!.isAnonymous
+                ? CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    child: const Icon(FluentIcons.arrow_exit_20_filled),
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signInAnonymously();
+                    },
+                  )
+                : null,
             largeTitleText:
                 '${_user!.isAnonymous ? 'Anonymous' : _user!.displayName ?? "Neal Oliver"}  ',
           ),
