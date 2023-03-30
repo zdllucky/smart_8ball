@@ -4,8 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_8ball/app/shared/functions/showDialog.dart';
+import 'package:smart_8ball/app/alert/__.dart';
 
+import '../../../infrastructure/di/injections.dart';
 import '../../shared/widgets/rounded_c_button.dart';
 import 'f_builder_c_t_field.dart';
 
@@ -30,36 +31,27 @@ class _SignUpFormState extends State<SignUpForm> {
       context.go('/');
     }
 
-    Future<T?> sDialog<T>(
-            {required Text alert,
-            Widget? content,
-            bool? barrierDismissible,
-            List<CupertinoDialogAction>? actions}) =>
-        showAlertDialog<T>(context,
-            alert: alert,
-            content: content,
-            barrierDismissible: barrierDismissible,
-            actions: actions);
-
     Future<void> handleSubmit() async {
       setState(() => _isLoading = true);
       if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
 
       try {
+        print('Registration started!');
         final credential = EmailAuthProvider.credential(
             email: _formKey.currentState?.instantValue['email'],
             password: _formKey.currentState?.instantValue['password']);
 
         await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
 
-        sDialog(
+        get<AlertCubit>().showAlertDialog(BasicAlert(
           alert: const Text("Registration success!"),
           content: Text(
               "We need to ensure this email belongs to you. We've sent you a message to \"${_formKey.currentState?.instantValue['email']}\", please check it."),
-        ).whenComplete(popLocal);
+          onCloseDialog: popLocal,
+        ));
       } on FirebaseAuthException catch (e) {
-        sDialog(
-            alert: const Text("Sorry!"), content: Text(e.message ?? e.code));
+        get<AlertCubit>().showAlertDialog(BasicAlert(
+            alert: const Text("Sorry!"), content: Text(e.message ?? e.code)));
       } finally {
         setState(() => _isLoading = false);
       }
@@ -112,33 +104,31 @@ class _SignUpFormState extends State<SignUpForm> {
                 FormBuilderValidators.required(),
                 FormBuilderValidators.equal(true)
               ]),
-              builder: (FormFieldState field) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CupertinoSwitch(
-                      value: field.value,
-                      onChanged: (value) => field.didChange(value),
-                    ),
-                    const Expanded(
-                      child: Text(
-                        'I have read will accept terms and conditions when they arrive here as link.\n',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w200,
-                          fontSize: 14,
-                        ),
-                        softWrap: true,
+              builder: (FormFieldState field) => Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CupertinoSwitch(
+                    value: field.value,
+                    onChanged: (value) => field.didChange(value),
+                  ),
+                  const Expanded(
+                    child: Text(
+                      'I have read will accept terms and conditions when they arrive here as link.\n',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w200,
+                        fontSize: 14,
                       ),
-                    )
-                  ],
-                );
-              },
+                      softWrap: true,
+                    ),
+                  )
+                ],
+              ),
             ),
             RoundedCButton(
               padding: null,
               onPressed: _canSubmit && !_isLoading ? handleSubmit : null,
               icon: FluentIcons.person_add_20_regular,
-              text: _isLoading ? 'Creating user' : 'Sign up',
+              text: _isLoading ? 'Creating account...' : 'Sign up',
             ),
           ],
         ),

@@ -7,5 +7,5 @@ const dev = Environment('dev');
 
 final get = GetIt.instance;
 
-@InjectableInit()
+@InjectableInit(preferRelativeImports: true)
 Future<GetIt> configureDependencies() => get.init();
