@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class BallScreen extends StatelessWidget {
   const BallScreen({super.key, required this.lightSource, required this.child});
@@ -17,7 +17,7 @@ class BallScreen extends StatelessWidget {
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: RadialGradient(
-                colors: const [Color(0x661F1F1F), Colors.black],
+                colors: const [Color(0x661F1F1F), CupertinoColors.black],
                 center: Alignment(portalShadowOffset.dx, portalShadowOffset.dy),
                 stops: [1 - innerShadowWidth, 1])),
         child: child);
