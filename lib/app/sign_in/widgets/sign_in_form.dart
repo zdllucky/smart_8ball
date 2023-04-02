@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_8ball/app/alert/__.dart';
-import 'package:smart_8ball/infrastructure/di/injections.dart';
 
+import '../../../infrastructure/di/injections.dart';
+import '../../alert/__.dart';
+import '../../app_root/__.dart';
+import '../../auth/__.dart';
 import '../../shared/widgets/rounded_c_button.dart';
 import '../../sign_up/widgets/f_builder_c_t_field.dart';
 
@@ -26,6 +29,14 @@ class _SignInFormState extends State<SignInForm> {
       () => _canSubmit = _formKey.currentState?.saveAndValidate() ?? false);
 
   @override
+  void dispose() {
+    if (get<AuthCubit>().state == null) {
+      get<AuthService>().provider.signInAnonymously();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     void goProfileRoute() {
       context.go('/');
@@ -40,9 +51,8 @@ class _SignInFormState extends State<SignInForm> {
             email: _formKey.currentState?.instantValue['email'],
             password: _formKey.currentState?.instantValue['password']);
 
-        FirebaseAuth.instance.currentUser?.delete();
-
-        await FirebaseAuth.instance.signInWithCredential(credential);
+        await get<AuthService>().provider.currentUser?.delete();
+        await get<AuthService>().provider.signInWithCredential(credential);
 
         goProfileRoute();
       } on FirebaseAuthException catch (e) {
@@ -81,6 +91,16 @@ class _SignInFormState extends State<SignInForm> {
               placeholder: 'Password',
             ),
             const Spacer(),
+
+            // TODO: Remove this in production
+            if (kDebugMode)
+              Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: RoundedCButton(
+                    filled: true,
+                    text: 'Drop app',
+                    onPressed: () => get<AppRootService>().resetApp(context)),
+              ),
             RoundedCButton(
               padding: null,
               onPressed: _canSubmit && !_isLoading ? handleSubmit : null,

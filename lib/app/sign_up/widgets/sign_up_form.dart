@@ -4,9 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_8ball/app/alert/__.dart';
 
 import '../../../infrastructure/di/injections.dart';
+import '../../alert/__.dart';
+import '../../auth/__.dart';
 import '../../shared/widgets/rounded_c_button.dart';
 import 'f_builder_c_t_field.dart';
 
@@ -36,12 +37,11 @@ class _SignUpFormState extends State<SignUpForm> {
       if (!(_formKey.currentState?.saveAndValidate() ?? false)) return;
 
       try {
-        print('Registration started!');
         final credential = EmailAuthProvider.credential(
             email: _formKey.currentState?.instantValue['email'],
             password: _formKey.currentState?.instantValue['password']);
 
-        await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
+        get<AuthService>().provider.currentUser?.linkWithCredential(credential);
 
         get<AlertCubit>().showAlertDialog(BasicAlert(
           alert: const Text("Registration success!"),

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "819882374666",
+    "firebase_url": "https://smart-8ball-default-rtdb.firebaseio.com",
+    "project_id": "smart-8ball",
+    "storage_bucket": "smart-8ball.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819882374666:android:ba497ee6e6a50bfe8591f3",
+        "android_client_info": {
+          "package_name": "quest.ponder8.ponder8"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819882374666-dhjggpleqpf0a8rk6bkasf7jfgt5ajer.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1UI-2OGct5p96bS25sAs2pdeubxlD8vM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "819882374666-dhjggpleqpf0a8rk6bkasf7jfgt5ajer.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "819882374666-b4n8aigkm8fqv3k7r5aj2unnpnt18po9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.zdllucky.smart8ball"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

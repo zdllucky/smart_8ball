@@ -1,7 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_8ball/infrastructure/di/injections.dart';
 
 import '../alert/__.dart';
+import '../auth/__.dart';
 import '../ball/__.dart';
 import '../profile/__.dart';
 import '../sign_in/__.dart';
@@ -9,7 +10,7 @@ import '../sign_up/__.dart';
 import 'widgets/prev_page_redirect.dart';
 
 bool _authedRedirectPredicate() =>
-    !(FirebaseAuth.instance.currentUser?.isAnonymous ?? false);
+    !(get<AuthService>().provider.currentUser?.isAnonymous ?? false);
 
 final appRouter = GoRouter(
   routes: [

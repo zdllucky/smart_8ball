@@ -1,39 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'dart:async';
 
-import 'app/router/__.dart';
-import 'firebase_options.dart';
+import 'package:flutter/cupertino.dart';
+
+import 'app/app_root/__.dart';
 import 'infrastructure/di/injections.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    name: 'smart-8ball',
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  final fAuth = FirebaseAuth.instance;
-
-  if (kDebugMode) await fAuth.useAuthEmulator('localhost', 9099);
-
   await configureDependencies();
 
-  await fAuth.signOut();
-
-  if (fAuth.currentUser == null) {
-    try {
-      await fAuth.signInAnonymously();
-    } finally {}
-  }
-
-  runApp(CupertinoApp.router(
-    routerConfig: appRouter,
-    debugShowCheckedModeBanner: false,
-    theme: const CupertinoThemeData(
-      brightness: Brightness.dark,
-      primaryColor: CupertinoColors.systemOrange,
-    ),
-  ));
+  runApp(await appRootView());
 }
