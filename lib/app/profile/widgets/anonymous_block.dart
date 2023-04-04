@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
@@ -32,19 +33,23 @@ class AnonymousBlock extends StatelessWidget {
             children: [
               Expanded(
                 child: RoundedCButton(
-                  filled: false,
-                  icon: FluentIcons.arrow_enter_20_regular,
-                  text: 'Sign in',
-                  onPressed: () => context.push('/sign-in'),
-                ),
+                    filled: false,
+                    icon: FluentIcons.arrow_enter_20_regular,
+                    text: 'Sign in',
+                    onPressed:
+                        FirebaseRemoteConfig.instance.getBool('signInEnabled')
+                            ? () => context.push('/sign-in')
+                            : null),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: RoundedCButton(
-                  icon: FluentIcons.person_add_20_regular,
-                  text: 'Sign up',
-                  onPressed: () => context.push('/sign-up'),
-                ),
+                    icon: FluentIcons.person_add_20_regular,
+                    text: 'Sign up',
+                    onPressed:
+                        FirebaseRemoteConfig.instance.getBool('signUpEnabled')
+                            ? () => context.push('/sign-up')
+                            : null),
               ),
             ],
           ),

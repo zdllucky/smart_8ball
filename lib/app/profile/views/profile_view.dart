@@ -28,7 +28,7 @@ class ProfileView extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           child: const Icon(FluentIcons.arrow_exit_20_filled),
                           onPressed: () {
-                            get<AuthService>().provider.signInAnonymously();
+                            get<AuthService>().signInAnonymously();
                           },
                         )
                       : null,

@@ -31,7 +31,7 @@ class _SignInFormState extends State<SignInForm> {
   @override
   void dispose() {
     if (get<AuthCubit>().state == null) {
-      get<AuthService>().provider.signInAnonymously();
+      get<AuthService>().signInAnonymously();
     }
     super.dispose();
   }

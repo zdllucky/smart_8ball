@@ -39,12 +39,7 @@ class BallView extends StatelessWidget {
             SliverFillRemaining(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    SizedBox(
-                      height: 48,
-                    ),
-                    BallMotion()
-                  ]),
+                  children: const [SizedBox(height: 48), BallMotion()]),
             )
           ],
         ),
