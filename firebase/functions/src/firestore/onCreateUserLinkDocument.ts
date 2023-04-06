@@ -8,12 +8,5 @@ export const createRealtimeRecord = functions.firestore
     .onCreate(async (snap, context) => {
       const documentId = context.params.deviceId;
 
-      const realtimeData = {
-        basicTries: 3,
-      };
-
-      const realtimeRef = admin.database().ref("");
-      await realtimeRef.set(realtimeData);
-
       console.log(`Realtime record created for document ID: ${documentId}`);
     });

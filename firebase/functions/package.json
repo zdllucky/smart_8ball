@@ -1,0 +1,83 @@
+{
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "lib/src/index.js",
+  "dependencies": {
+    "@google-cloud/logging": "^10.4.0",
+    "express": "^4.18.2",
+    "express-zod-api": "^10.1.2",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.1",
+    "type-fest": "^3.7.2",
+    "zod": "^3.21.4",
+    "@google-cloud/logging-winston": "^5.3.0",
+    "winston": "^3.8.2",
+    "swagger-ui-express": "^4.6.0"
+  },
+  "devDependencies": {
+    "@firebase/functions-types": "^0.6.0",
+    "@types/swagger-ui-express": "^4.1.3",
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
+    "eslint": "^8.37.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "eslint-plugin-unicorn": "^41.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "firebase-functions-test": "^3.0.0",
+    "prettier": "^2.5.1",
+    "typescript": "^5.0.3"
+  },
+  "private": true,
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "google",
+      "plugin:@typescript-eslint/recommended",
+      "prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": [
+        "tsconfig.json"
+      ],
+      "sourceType": "module"
+    },
+    "ignorePatterns": [
+      "/lib/**/*"
+    ],
+    "plugins": [
+      "@typescript-eslint",
+      "eslint-plugin-import",
+      "eslint-plugin-prefer-arrow",
+      "eslint-plugin-unicorn",
+      "eslint-plugin-unicorn"
+    ],
+    "rules": {
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-vars": "off"
+    }
+  }
+}

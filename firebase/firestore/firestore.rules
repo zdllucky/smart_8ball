@@ -1,0 +1,24 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /anonymousUserLinks/{deviceId} {
+      allow delete, list: if false;
+      allow get: if
+        request.auth != null &&
+        resource.data.linksTo.hasAll([request.auth.uid]);
+      allow create: if
+        request.auth != null &&
+        request.resource.data.keys().size() == 1 &&
+        request.resource.data.keys().hasOnly(['linksTo']) &&
+        request.resource.data.linksTo is list &&
+        request.resource.data.linksTo.size() == 1;
+
+      allow update: if
+        request.auth != null &&
+        request.resource.data.linksTo.size() == resource.data.linksTo.size() + 1 &&
+        request.resource.data.linksTo.hasAll(resource.data.linksTo) &&
+        !resource.data.linksTo.hasAll(request.resource.data.linksTo)
+      ;
+    }
+  }
+}

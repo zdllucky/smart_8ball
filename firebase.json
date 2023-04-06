@@ -12,10 +12,6 @@
       "port": 8080,
         "rules": "firebase/firestore/firestore.rules"
     },
-    "database": {
-      "port": 9000,
-      "host": "0.0.0.0"
-    },
     "pubsub": {
       "port": 8085,
       "host": "0.0.0.0"
@@ -25,9 +21,6 @@
       "port": 11111,
       "host": "0.0.0.0"
     }
-  },
-  "database": {
-    "rules": "firebase/database/database.rules.json"
   },
   "firestore": {
     "rules": "firebase/firestore/firestore.rules",
