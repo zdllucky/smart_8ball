@@ -1,25 +1,17 @@
 import { DependsOnMethod } from "express-zod-api";
-import { get } from "./version";
+import * as versionRoute from "./version";
+import * as openApiRoute from "./openapi";
+import * as acquireDailyRoute from "./acquireDaily";
 
-// @ts-ignore
 const d = (r: typeof DependsOnMethod.constructor.arguments) =>
   new DependsOnMethod(r);
 
 export default {
-  rest: {
-    v1: {
-      version: get,
-      // product: {
-      // 	"": d(productsRoute),
-      // 	":id": {
-      // 		"": d(productRoute),
-      // 		relation: d(relationRoute),
-      // 	},
-      // },
-      // category: d(categoriesRoute),
-      // data: {
-      // 	":id": d(dataRoute),
-      // },
+  v1: {
+    version: d(versionRoute),
+    api: d(openApiRoute),
+    ball: {
+      acquireDaily: d(acquireDailyRoute),
     },
   },
 };
