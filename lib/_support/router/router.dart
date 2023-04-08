@@ -22,6 +22,9 @@ final appRouter = GoRouter(
     GoRoute(path: '/ball', builder: (context, state) => const BallView())
         .withDialog(),
     GoRoute(
+        path: '/dev-playground',
+        builder: (context, state) => const DevPlaygroundView()),
+    GoRoute(
       path: '/sign-in',
       builder: (context, state) => const PrevPageRedirect(
         predicate: _authedRedirectPredicate,

@@ -31,6 +31,20 @@ class BallView extends StatelessWidget {
             ThemedCSNavigationBar(
               middleText: 'Ponder8',
               largeTitleText: 'Mighty Ball  ',
+              leading: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: null,
+                      child: Icon(FluentIcons.reading_list_24_regular)),
+                  if (kDebugMode)
+                    CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () => context.push('/dev-playground'),
+                        child: const Icon(FluentIcons.code_24_regular)),
+                ],
+              ),
               trailing: CupertinoButton(
                   padding: EdgeInsets.zero,
                   onPressed: () => context.push('/profile'),
