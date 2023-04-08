@@ -1,25 +1,31 @@
 {
   "emulators": {
+    "singleProjectMode": true,
     "auth": {
       "port": 9099,
-      "host": "0.0.0.0"
+      "host": "localhost"
     },
     "functions": {
       "port": 5002,
-      "host": "0.0.0.0"
+      "host": "localhost"
     },
     "firestore": {
       "port": 8080,
-        "rules": "firebase/firestore/firestore.rules"
+      "host": "localhost",
+      "rules": "firebase/firestore/firestore.rules"
     },
     "pubsub": {
       "port": 8085,
-      "host": "0.0.0.0"
+      "host": "localhost"
+    },
+    "hub":{
+      "host": "localhost",
+      "port": 4400
     },
     "ui": {
       "enabled": true,
       "port": 11111,
-      "host": "0.0.0.0"
+      "host": "localhost"
     }
   },
   "firestore": {
