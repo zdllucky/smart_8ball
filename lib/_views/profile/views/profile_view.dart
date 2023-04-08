@@ -3,10 +3,10 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../infrastructure/di/injections.dart';
-import '../../auth/__.dart';
-import '../../shared/widgets/dark_blue_c_p_scaffold.dart';
-import '../../shared/widgets/themed_c_s_navigation_bar.dart';
+import '../../../../../_support/di/injections.dart';
+import '../../../_support/auth/__.dart';
+import '../../../_widgets/dark_blue_c_p_scaffold.dart';
+import '../../../_widgets/themed_c_s_navigation_bar.dart';
 import '../widgets/anonymous_block.dart';
 import '../widgets/profile_settings_block.dart';
 
