@@ -1,7 +1,6 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
-
-import '../../../_widgets/rounded_c_button.dart';
+import 'package:smart_8ball/_widgets/common/__.dart';
 
 class ActionsTestSection extends StatelessWidget {
   const ActionsTestSection({super.key});

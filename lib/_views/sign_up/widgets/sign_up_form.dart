@@ -4,12 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../../_support/di/injections.dart';
-import '../../../_support/auth/__.dart';
-import '../../../_widgets/alert/__.dart';
-import '../../../_widgets/rounded_c_button.dart';
-import 'f_builder_c_t_field.dart';
+import 'package:smart_8ball/_support/auth/__.dart';
+import 'package:smart_8ball/_support/di/__.dart';
+import 'package:smart_8ball/_widgets/alert/__.dart';
+import 'package:smart_8ball/_widgets/common/__.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});

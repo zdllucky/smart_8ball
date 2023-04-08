@@ -2,10 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../../_support/di/injections.dart';
-import '../../../_widgets/alert/__.dart';
-import '../../../_widgets/rounded_c_button.dart';
+import 'package:smart_8ball/_support/di/__.dart';
+import 'package:smart_8ball/_widgets/alert/__.dart';
+import 'package:smart_8ball/_widgets/common/__.dart';
 
 class ProfileSettingsBlock extends StatelessWidget {
   const ProfileSettingsBlock({super.key, required this.user});

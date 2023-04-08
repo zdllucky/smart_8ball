@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-
-import 'app/app_root/__.dart';
-import 'infrastructure/di/injections.dart';
+import 'package:smart_8ball/_support/app_root/__.dart';
+import 'package:smart_8ball/_support/di/__.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

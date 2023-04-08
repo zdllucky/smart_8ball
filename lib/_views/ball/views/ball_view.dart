@@ -2,9 +2,9 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_8ball/_widgets/common/__.dart';
+import 'package:smart_8ball/_widgets/tries/__.dart';
 
-import '../../../_widgets/themed_c_s_navigation_bar.dart';
-import '../../../_widgets/tries/__.dart';
 import '../widgets/ball/ball_motion.dart';
 
 class BallView extends StatelessWidget {
@@ -55,7 +55,12 @@ class BallView extends StatelessWidget {
             SliverFillRemaining(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [SizedBox(height: 48), BallMotion()]),
+                  children: const [
+                    SizedBox(height: 48),
+                    BallMotion(),
+                    SizedBox(height: 32),
+                    BallTries()
+                  ]),
             )
           ],
         ),

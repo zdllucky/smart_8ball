@@ -3,8 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../_widgets/rounded_c_button.dart';
+import 'package:smart_8ball/_widgets/common/__.dart';
 
 class AnonymousBlock extends StatelessWidget {
   const AnonymousBlock({super.key});

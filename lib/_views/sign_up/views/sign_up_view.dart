@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:smart_8ball/_widgets/common/__.dart';
 
-import '../../../_widgets/dark_blue_c_p_scaffold.dart';
-import '../../../_widgets/themed_c_s_navigation_bar.dart';
 import '../widgets/sign_up_form.dart';
 
 class SignUpView extends StatelessWidget {
