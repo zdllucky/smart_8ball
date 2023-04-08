@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../infrastructure/di/injections.dart';
+import '../../../../../_support/di/injections.dart';
 import '../logic/alert_cubit.dart';
 
 class AlertProvider extends StatelessWidget {
