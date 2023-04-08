@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../infrastructure/di/injections.dart';
+import '../../../../../_support/di/injections.dart';
 import '../logic/auth/auth_cubit.dart';
 
 class AuthProvider extends StatelessWidget {

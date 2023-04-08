@@ -17,6 +17,9 @@ class AuthService {
   final AnonymousUserLinksRepo _anonymousUserLinksRepo;
   FirebaseAuth get provider => FirebaseAuth.instance;
   FirebaseAnalytics get _analytics => FirebaseAnalytics.instance;
+  String? _deviceId;
+
+  String? get deviceId => _deviceId;
 
   Future<void> initAppAuthState({bool includeAnalytics = true}) async {
     // Connect to the firebase auth emulator if in debug mode
@@ -31,6 +34,22 @@ class AuthService {
     if (!kDebugMode && includeAnalytics) {
       _analytics.setUserId(id: provider.currentUser?.uid);
     }
+  }
+
+  Future<void> signInAnonymously() async {
+    final dId = await _getDeviceId();
+
+    await provider.signInAnonymously();
+
+    final userId = provider.currentUser!.uid;
+
+    // TODO: Move this to a cloud function
+
+    if (kDebugMode) print('Linking anonymous user $userId to device $dId...');
+    await _anonymousUserLinksRepo.linkAnonymousUserToDevice(
+        deviceId: dId, userId: provider.currentUser!.uid);
+
+    _deviceId = dId;
   }
 
   String _generateRandomString(int length) {
@@ -52,13 +71,5 @@ class AuthService {
     }
 
     return deviceId ?? _generateRandomString(32);
-  }
-
-  Future<void> signInAnonymously() async {
-    final dId = await _getDeviceId();
-
-    await provider.signInAnonymously();
-    await _anonymousUserLinksRepo.linkAnonymousUserToDevice(
-        deviceId: dId, userId: provider.currentUser!.uid);
   }
 }
