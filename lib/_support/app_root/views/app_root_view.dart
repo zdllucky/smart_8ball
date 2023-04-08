@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../infrastructure/di/injections.dart';
+import '../../../../../_support/di/injections.dart';
 import '../../auth/__.dart';
 import '../../router/__.dart';
+import '../../tries/__.dart';
 import '../services/app_root_service.dart';
 
 const theme = CupertinoThemeData(
@@ -14,6 +15,7 @@ Future<Widget> appRootView() async {
   return CupertinoApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      builder: (context, child) => AuthProvider(child: child),
+      builder: (context, child) =>
+          AuthProvider(child: TriesAvailableProvider(child: child)),
       theme: theme);
 }
