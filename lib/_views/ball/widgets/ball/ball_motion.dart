@@ -26,6 +26,8 @@ class _BallMotionState extends State<BallMotion>
   double windowSizeMultiplier = 1.1;
   double wobble = 0.0;
 
+  bool _doesPanScreen = false;
+
   @override
   void initState() {
     controller = AnimationController(
@@ -54,9 +56,10 @@ class _BallMotionState extends State<BallMotion>
         Offset.lerp(restPosition, tapPosition, animation.value)!;
 
     return GestureDetector(
-      onPanUpdate: (details) => _update(details.localPosition, size),
-      onPanStart: (details) => _start(details.localPosition, size),
-      onPanEnd: (_) => _end(),
+      onPanUpdate: (details) => Future.delayed(const Duration(milliseconds: 5),
+          () => _update(details.localPosition, size)),
+      onPanStart: (details) => Future.delayed(const Duration(milliseconds: 5),
+          () => _start(details.localPosition, size)),
       child: Ball(
           diameter: size.shortestSide,
           lightSource: lightSource,
@@ -70,17 +73,27 @@ class _BallMotionState extends State<BallMotion>
               ..rotateZ(windowPosition.direction)
               ..rotateY(windowPosition.distance * pi / 2)
               ..rotateZ(-windowPosition.direction),
-            child: BallScreen(
-                lightSource: lightSource - windowPosition,
-                child: Opacity(
-                    opacity: 1 - controller.value,
-                    child: Transform.rotate(
-                        angle: wobble, child: Prediction(text: prediction)))),
+            child: Listener(
+              onPointerDown: (_) => setState(() => _doesPanScreen = true),
+              onPointerUp: (_) => setState(() {
+                _doesPanScreen = false;
+
+                _end();
+              }),
+              child: BallScreen(
+                  lightSource: lightSource - windowPosition,
+                  child: Opacity(
+                      opacity: 1 - controller.value,
+                      child: Transform.rotate(
+                          angle: wobble, child: Prediction(text: prediction)))),
+            ),
           )),
     );
   }
 
   void _update(Offset position, Size size) {
+    if (!_doesPanScreen) return;
+
     Offset tapPosition = Offset((2 * position.dx / size.width) - 1,
         (2 * position.dy / size.height) - 1);
     if (tapPosition.distance > 0.85) {
@@ -90,6 +103,7 @@ class _BallMotionState extends State<BallMotion>
   }
 
   void _start(Offset offset, Size size) {
+    if (!_doesPanScreen) return;
     controller.forward(from: 0);
     _update(offset, size);
   }
