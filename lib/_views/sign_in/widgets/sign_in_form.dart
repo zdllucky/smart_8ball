@@ -1,16 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../infrastructure/di/injections.dart';
-import '../../alert/__.dart';
-import '../../app_root/__.dart';
-import '../../auth/__.dart';
-import '../../shared/widgets/rounded_c_button.dart';
+import '../../../../../_support/di/injections.dart';
+import '../../../_support/auth/__.dart';
+import '../../../_widgets/alert/__.dart';
+import '../../../_widgets/rounded_c_button.dart';
 import '../../sign_up/widgets/f_builder_c_t_field.dart';
 
 class SignInForm extends StatefulWidget {
@@ -91,16 +89,6 @@ class _SignInFormState extends State<SignInForm> {
               placeholder: 'Password',
             ),
             const Spacer(),
-
-            // TODO: Remove this in production
-            if (kDebugMode)
-              Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: RoundedCButton(
-                    filled: true,
-                    text: 'Drop app',
-                    onPressed: () => get<AppRootService>().resetApp(context)),
-              ),
             RoundedCButton(
               padding: null,
               onPressed: _canSubmit && !_isLoading ? handleSubmit : null,
