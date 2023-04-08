@@ -9,7 +9,7 @@ class AnonymousUserLinksRepo {
   Future<void> linkAnonymousUserToDevice(
       {required String deviceId, required String userId}) async {
     try {
-      await _firestore.collection(_aul).doc(deviceId).get();
+      (await _firestore.collection(_aul).doc(deviceId).get())['linksTo'];
     } catch (e) {
       await _firestore.collection(_aul).doc(deviceId).set({
         'linksTo': FieldValue.arrayUnion([userId])
