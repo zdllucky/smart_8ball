@@ -38,6 +38,7 @@ dependencies:
   cloud_functions: ^4.1.0
   cloud_firestore: ^4.5.0
   device_info_plus: ^8.1.0
+  record: ^4.4.4
   
 dev_dependencies:
   flutter_test:

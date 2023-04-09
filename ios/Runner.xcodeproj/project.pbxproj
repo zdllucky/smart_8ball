@@ -70,7 +70,6 @@
 				7ED563DA5DC64B283013B42C /* Pods-Runner.release.xcconfig */,
 				5F2DF07C0551A0CEBC12BF1C /* Pods-Runner.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -521,7 +520,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = quest.ponder8.smart8ball;
+				PRODUCT_BUNDLE_IDENTIFIER = quest.ponder8.ponder8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
