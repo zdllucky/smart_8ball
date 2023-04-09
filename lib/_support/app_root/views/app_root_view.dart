@@ -10,6 +10,8 @@ const theme = CupertinoThemeData(
     brightness: Brightness.dark, primaryColor: CupertinoColors.systemOrange);
 
 Future<Widget> appRootView() async {
+  Paint.enableDithering = true;
+
   await get<AppRootService>().configureApp();
 
   return CupertinoApp.router(
