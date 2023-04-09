@@ -7,11 +7,17 @@ class FBuilderCTField extends StatelessWidget {
       this.validator,
       required this.name,
       this.placeholder,
-      this.obscureText = false});
+      this.obscureText = false,
+      this.decoration,
+      this.minLines,
+      this.maxLines});
   final String? Function(String?)? validator;
   final String name;
   final String? placeholder;
   final bool obscureText;
+  final BoxDecoration? decoration;
+  final int? minLines;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +34,20 @@ class FBuilderCTField extends StatelessWidget {
                   child: Text(field.errorText!),
                 )
               : null,
-          child: CupertinoTextField(
-              placeholder: placeholder,
-              obscureText: obscureText,
-              onChanged: (value) => field.didChange(value)),
+          child: decoration != null
+              ? CupertinoTextField(
+                  placeholder: placeholder,
+                  obscureText: obscureText,
+                  minLines: minLines,
+                  maxLines: maxLines,
+                  decoration: decoration,
+                  onChanged: (value) => field.didChange(value))
+              : CupertinoTextField(
+                  placeholder: placeholder,
+                  minLines: minLines,
+                  maxLines: maxLines,
+                  obscureText: obscureText,
+                  onChanged: (value) => field.didChange(value)),
         );
       },
     );

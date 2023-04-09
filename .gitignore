@@ -45,4 +45,6 @@ app.*.map.json
 
 sandbox
 
-**/*.(g|freezed|config).dart
+**/*.g.dart
+**/*.freezed.dart
+**/*.config.dart

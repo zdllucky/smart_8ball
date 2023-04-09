@@ -68,16 +68,20 @@ class _ThemedCSNavigationBarState extends State<ThemedCSNavigationBar> {
           ),
         ),
         largeTitle: ifCenteredChild(
-          GlowText(
-            widget.largeTitleText ?? widget.middleText,
-            style: TextStyle(
-                fontFamily: GoogleFonts.averiaSerifLibre().fontFamily,
-                fontWeight: widget.largeTitleCentered ? FontWeight.w900 : null,
-                fontSize: widget.largeTitleCentered ? 45 : null,
-                color: const Color.fromRGBO(247, 223, 208, 1.0)),
-            glowColor:
-                CupertinoColors.systemYellow.elevatedColor.withOpacity(.5),
-            blurRadius: 10,
+          Transform.scale(
+            scaleX: 1.05,
+            child: GlowText(
+              widget.largeTitleText ?? widget.middleText,
+              style: TextStyle(
+                  fontFamily: GoogleFonts.averiaSerifLibre().fontFamily,
+                  fontWeight:
+                      widget.largeTitleCentered ? FontWeight.w900 : null,
+                  fontSize: widget.largeTitleCentered ? 45 : null,
+                  color: const Color.fromRGBO(247, 223, 208, 1.0)),
+              glowColor:
+                  CupertinoColors.systemYellow.elevatedColor.withOpacity(.5),
+              blurRadius: 10,
+            ),
           ),
         ),
       );
