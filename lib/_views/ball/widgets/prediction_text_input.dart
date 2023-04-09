@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:smart_8ball/_widgets/common/__.dart';
 
-import '../../logic/ball_action/ball_action_bloc.dart';
+import '../logic/ball_action/ball_action_bloc.dart';
 
 class PredictionTextInput extends StatefulWidget {
   const PredictionTextInput({super.key});
@@ -16,10 +16,38 @@ class PredictionTextInput extends StatefulWidget {
   State<PredictionTextInput> createState() => _PredictionTextInputState();
 }
 
-class _PredictionTextInputState extends State<PredictionTextInput> {
+class _PredictionTextInputState extends State<PredictionTextInput>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormBuilderState>();
   // bool _isLoading = false;
   bool _canSubmit = false;
+  late AnimationController _controller;
+  late Animation<double> _blurAnimation;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 160),
+        reverseDuration: const Duration(milliseconds: 160));
+    _blurAnimation = Tween<double>(begin: 3, end: 20).animate(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeIn,
+        reverseCurve: Curves.easeOut));
+    _controller.forward(from: 0);
+
+    _controller.addListener(() {
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   void validateFields() => setState(
       () => _canSubmit = _formKey.currentState?.saveAndValidate() ?? false);
@@ -28,8 +56,8 @@ class _PredictionTextInputState extends State<PredictionTextInput> {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          // blendMode: BlendMode.srcATop,
+          filter: ImageFilter.blur(
+              sigmaX: _blurAnimation.value, sigmaY: _blurAnimation.value),
           child: Container(
             padding: const EdgeInsets.all(4).copyWith(right: 6),
             decoration: BoxDecoration(
@@ -41,10 +69,12 @@ class _PredictionTextInputState extends State<PredictionTextInput> {
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 6),
                   child: FBuilderCTField(
-                    name: 'magic',
-                    placeholder: 'Type magic here...',
+                    name: 'question',
+                    placeholder: 'Type your question here...',
                     minLines: 3,
                     maxLines: 3,
+                    autofocus: true,
+                    unFocusOnSwipe: true,
                     decoration: BoxDecoration(color: Color(0x00000000)),
                   ),
                 ),

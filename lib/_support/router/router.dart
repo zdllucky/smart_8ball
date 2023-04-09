@@ -19,7 +19,7 @@ final appRouter = GoRouter(
       path: '/',
       redirect: (_, __) => '/ball',
     ),
-    GoRoute(path: '/ball', builder: (context, state) => const BallView())
+    GoRoute(path: '/ball', builder: (context, state) => BallView())
         .withDialog(),
     GoRoute(
         path: '/dev-playground',

@@ -54,7 +54,7 @@ class _BallMotionState extends State<BallMotion>
 
   @override
   Widget build(BuildContext context) {
-    final size = Size.square(MediaQuery.of(context).size.shortestSide * .6);
+    final size = Size.square(MediaQuery.of(context).size.shortestSide * .75);
 
     return BlocConsumer<BallActionBloc, BallActionState>(
       listener: (context, state) {
@@ -98,6 +98,7 @@ class _BallMotionState extends State<BallMotion>
                   onPointerUp: (_) => _end(
                       addEventFn: context.read<BallActionBloc>().add,
                       ballState: state),
+                  // FIXIT: Fix bug when BallScreen widget follows pointer while ignoring bounds
                   child: BallScreen(
                       lightSource: lightSource - windowPosition,
                       child: Opacity(
@@ -139,6 +140,7 @@ class _BallMotionState extends State<BallMotion>
     setState(() => this.tapPosition = tapPosition);
   }
 
+  // FIXIT: Fix Ball clamping when touching right after reset
   void _start(
     Offset offset,
     Size size, {
