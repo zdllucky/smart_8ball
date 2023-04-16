@@ -149,10 +149,10 @@ packages:
     dependency: "direct main"
     description:
       name: cloud_firestore
-      sha256: "3a2dba23d7d084a2d3c2dfd240d2122908cca40bab2d142f7e107f40df174ab5"
+      sha256: f5431cf41ab5c5e9c64e03ac2af103e10be22bf89020f394130c04b81add0010
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.0"
+    version: "4.5.1"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
@@ -165,10 +165,10 @@ packages:
     dependency: transitive
     description:
       name: cloud_firestore_web
-      sha256: bc1fbcd6287acedded1139c9b13cfd47e792d5198f130f98759464839ea510a7
+      sha256: "228f1944fb3c61ddf5de3647ec5b6ed88d6aacb0a4d485ef597c1211fe98ef8b"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.0"
+    version: "3.4.1"
   cloud_functions:
     dependency: "direct main"
     description:
@@ -253,10 +253,10 @@ packages:
     dependency: "direct main"
     description:
       name: device_info_plus
-      sha256: "1d6e5a61674ba3a68fb048a7c7b4ff4bebfed8d7379dbe8f2b718231be9a7c95"
+      sha256: "435383ca05f212760b0a70426b5a90354fe6bd65992b3a5e27ab6ede74c02f5c"
       url: "https://pub.dev"
     source: hosted
-    version: "8.1.0"
+    version: "8.2.0"
   device_info_plus_platform_interface:
     dependency: transitive
     description:
@@ -349,10 +349,10 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_auth
-      sha256: "3d33d6646f08407122cd2cbd292d274b98035d93f59c9e341ba992ebefd59ffa"
+      sha256: e5254a39daab8c5bc76b17f5a161c11a7a97a3718cd314f460e2b4366c850c7d
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.0"
+    version: "4.4.1"
   firebase_auth_platform_interface:
     dependency: transitive
     description:
@@ -365,10 +365,10 @@ packages:
     dependency: transitive
     description:
       name: firebase_auth_web
-      sha256: f50f7026b95c62dba3f0b28bdb3ab3601ea402b4908c1469103f16ae2b0f5281
+      sha256: c631ec90d05c990fe971774ff12e96ee88fc3dd22839d5cab3b04c8693859116
       url: "https://pub.dev"
     source: hosted
-    version: "5.3.0"
+    version: "5.3.1"
   firebase_core:
     dependency: "direct main"
     description:
@@ -429,10 +429,10 @@ packages:
     dependency: "direct main"
     description:
       name: fluentui_system_icons
-      sha256: dfa6da54bc5600858e73ad52a768129cbd8d4620c128081fa2ed82ade453dc69
+      sha256: "2e171e8272f07536b11218574cb0210a5b99efca8050b418464d2748db9d15f8"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.198"
+    version: "1.1.199"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -458,10 +458,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_glow
-      sha256: b69b6306f87b496d34da7f0b88b41b324cb75255516f1f6913321e463eb66b31
+      sha256: "158f041ddbc18f199dcfd9375d40b983a2bf887752598cdf7b41ac6ff36362bf"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.3.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -529,10 +529,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "6af43e0948b9f64a812afbb9ac3f76e2c8f5abe4efaba4188702a56af46b98c2"
+      sha256: "50bc08b72ede07daaf897deb4c00ca8fd8976c8821a4c84d7aeef0e92d1c5620"
       url: "https://pub.dev"
     source: hosted
-    version: "6.5.2"
+    version: "6.5.6"
   google_fonts:
     dependency: "direct main"
     description:
