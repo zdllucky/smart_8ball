@@ -55,29 +55,29 @@ flutter:
   fonts:
     - family: Monoton
       fonts:
-        - asset: lib/support/asset/Monoton/Monoton-Regular.ttf
+        - asset: lib/_support/asset/font/Monoton/Monoton-Regular.ttf
     - family: Automania
       fonts:
-        - asset: lib/support/asset/fonts/Automania/Automania.ttf
+        - asset: lib/_support/asset/font/Automania/Automania.ttf
     - family: Beon
       fonts:
-        - asset: lib/support/asset/fonts/Beon/Beon.otf
+        - asset: lib/_support/asset/font/Beon/Beon.otf
     - family: LasEnter
       fonts:
-        - asset: lib/support/asset/fonts/LasEnter/LasEnter.ttf
+        - asset: lib/_support/asset/font/LasEnter/LasEnter.ttf
     - family: TextMeOne
       fonts:
-        - asset: lib/support/asset/fonts/TextMeOne/TextMeOne-Regular.ttf
+        - asset: lib/_support/asset/font/TextMeOne/TextMeOne-Regular.ttf
     - family: Night-Club-70s
       fonts:
-        - asset: lib/support/asset/fonts/Night-Club-70s/Night-Club-70s-Bold.ttf
-        - asset: lib/support/asset/fonts/Night-Club-70s/Night-Club-70s-Regular.ttf
+        - asset: lib/_support/asset/font/Night-Club-70s/Night-Club-70s-Bold.ttf
+        - asset: lib/_support/asset/font/Night-Club-70s/Night-Club-70s-Regular.ttf
     - family: Membra
       fonts:
-        - asset: lib/support/asset/fonts/Membra/Membra.ttf
+        - asset: lib/_support/asset/font/Membra/Membra.ttf
     - family: Samarin
       fonts:
-        - asset: lib/support/asset/fonts/Samarin/Samarin.ttf
+        - asset: lib/_support/asset/font/Samarin/Samarin.ttf
     - family: Cyberpunk
       fonts:
-        - asset: lib/support/asset/fonts/Cyberpunk/Cyberpunk.ttf
+        - asset: lib/_support/asset/font/Cyberpunk/Cyberpunk.ttf
