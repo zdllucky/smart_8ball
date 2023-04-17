@@ -46,7 +46,6 @@ class _ThemedCSNavigationBarState extends State<ThemedCSNavigationBar> {
 
   @override
   Widget build(BuildContext context) => CupertinoSliverNavigationBar(
-        key: widget.key,
         automaticallyImplyLeading:
             widget.automaticallyImplyLeading && widget.leading == null,
         leading: widget.leading,
