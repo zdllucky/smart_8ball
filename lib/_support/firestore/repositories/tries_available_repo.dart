@@ -11,7 +11,7 @@ class TriesAvailableRepo {
   static const _ta = 'triesAvailable';
   final CollectionReference<TriesAvailableModel> _ref = _fs
       .collection(_ta)
-      .withConverter<TriesAvailableModel>(
+      .withConverter(
           fromFirestore: (snapshot, _) =>
               TriesAvailableModel.fromJson(snapshot.data()!),
           toFirestore: (model, _) => model.toJson());
