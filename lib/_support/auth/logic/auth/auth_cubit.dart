@@ -7,13 +7,13 @@ import '../../services/auth_service.dart';
 
 @lazySingleton
 class AuthCubit extends Cubit<User?> {
-  final AuthService authService;
+  final AuthService _authService;
   final closers = <Function>[];
 
-  AuthCubit(this.authService) : super(null) {
-    closers.add(authService.provider.authStateChanges().listen(emit).cancel);
-    closers.add(authService.provider.idTokenChanges().listen(emit).cancel);
-    closers.add(authService.provider.userChanges().listen(emit).cancel);
+  AuthCubit(this._authService) : super(null) {
+    closers.add(_authService.provider.authStateChanges().listen(emit).cancel);
+    closers.add(_authService.provider.idTokenChanges().listen(emit).cancel);
+    closers.add(_authService.provider.userChanges().listen(emit).cancel);
   }
 
   @override
