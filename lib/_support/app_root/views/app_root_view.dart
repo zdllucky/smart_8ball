@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:smart_8ball/_support/auth/__.dart';
+import 'package:smart_8ball/_support/di/__.dart';
+import 'package:smart_8ball/_support/router/__.dart';
+import 'package:smart_8ball/_widgets/tries/__.dart';
 
-import '../../../../../_support/di/injections.dart';
-import '../../auth/__.dart';
-import '../../router/__.dart';
-import '../../tries/__.dart';
 import '../services/app_root_service.dart';
 
 const theme = CupertinoThemeData(

@@ -5,16 +5,17 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_8ball/_support/auth/__.dart';
+import 'package:smart_8ball/_support/di/__.dart';
 
-import '../../auth/__.dart';
 import '../misc/firebase_options.dart';
 
 @lazySingleton
 class AppRootService {
-  final AuthService _authService;
+  late final AuthService _authService;
   bool isConfigured = false;
 
-  AppRootService(this._authService);
+  AppRootService();
 
   Future<void> configureApp() async {
     if (isConfigured) {
@@ -27,10 +28,13 @@ class AppRootService {
     // FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(!kDebugMode);
 
     if (kDebugMode) {
-      FirebaseFunctions.instance.useFunctionsEmulator('localhost', 9099);
-      FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+      FirebaseFunctions.instance.useFunctionsEmulator('192.168.31.149', 9099);
+      FirebaseFirestore.instance.useFirestoreEmulator('192.168.31.149', 8080);
+
       await FirebaseFirestore.instance.enableNetwork();
     }
+
+    _authService = get();
 
     final remoteConfig = FirebaseRemoteConfig.instance;
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
