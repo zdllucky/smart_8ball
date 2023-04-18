@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
-import 'c_r_t_glow_text.dart';
+import '../c_r_t_glow_text.dart';
 
 class TextResponse extends StatelessWidget {
   const TextResponse(this._text, {super.key, required this.animation});
