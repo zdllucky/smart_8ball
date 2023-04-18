@@ -23,7 +23,7 @@ class AuthService {
 
   Future<void> initAppAuthState({bool includeAnalytics = true}) async {
     // Connect to the firebase auth emulator if in debug mode
-    if (kDebugMode) await provider.useAuthEmulator('localhost', 9099);
+    if (kDebugMode) await provider.useAuthEmulator('192.168.31.149', 9099);
 
     // If the user is not signed in, sign them in anonymously
     if (provider.currentUser == null || kDebugMode) {
