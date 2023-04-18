@@ -30,8 +30,8 @@ class _PageScaffoldState extends State<PageScaffold>
   void initState() {
     _controller = AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 160),
-        reverseDuration: const Duration(milliseconds: 160));
+        duration: const Duration(milliseconds: 260),
+        reverseDuration: const Duration(milliseconds: 260));
     final ca = CurvedAnimation(
         parent: _controller,
         curve: Curves.easeIn,

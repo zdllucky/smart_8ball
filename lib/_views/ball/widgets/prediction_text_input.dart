@@ -28,8 +28,8 @@ class _PredictionTextInputState extends State<PredictionTextInput>
   void initState() {
     _controller = AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 160),
-        reverseDuration: const Duration(milliseconds: 160));
+        duration: const Duration(milliseconds: 260),
+        reverseDuration: const Duration(milliseconds: 260));
     _blurAnimation = Tween<double>(begin: 3, end: 20).animate(CurvedAnimation(
         parent: _controller,
         curve: Curves.easeIn,

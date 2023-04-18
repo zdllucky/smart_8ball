@@ -21,8 +21,9 @@ class BallView extends StatelessWidget {
             AnimatedSize(
                 alignment: Alignment.center,
                 curve: Curves.easeIn,
-                duration: const Duration(milliseconds: 260),
-                clipBehavior: Clip.none,
+                duration: const Duration(milliseconds: 70),
+                reverseDuration: const Duration(milliseconds: 360),
+                clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: SizedBox(
                   width: state is BallActionWriting ? 100 : null,
                   height: state is BallActionWriting ? 100 : null,
