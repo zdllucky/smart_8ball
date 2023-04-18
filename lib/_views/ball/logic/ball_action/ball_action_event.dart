@@ -24,3 +24,10 @@ class StopRecording extends BallActionEvent {}
 class StopWriting extends BallActionEvent {}
 
 class BallWasReset extends BallActionEvent {}
+
+class ContinueRecordingOrSubmit extends BallActionEvent {
+  final double side;
+  final bool canSubmit;
+
+  ContinueRecordingOrSubmit(this.side, {this.canSubmit = true});
+}

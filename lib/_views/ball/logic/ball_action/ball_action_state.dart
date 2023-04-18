@@ -1,7 +1,7 @@
 part of 'ball_action_bloc.dart';
 
 @immutable
-abstract class BallActionState {}
+abstract class BallActionState with AdvancedConditional {}
 
 abstract class BallActionStateWithSide extends BallActionState {
   final Offset side;
@@ -34,4 +34,8 @@ class BallActionSubmittingText extends BallActionStateWithSide {
   final String text;
 
   BallActionSubmittingText(this.text) : super(const Offset(0, .85));
+}
+
+mixin AdvancedConditional on Object {
+  bool isOneOf(List<Type> list) => list.any((type) => runtimeType == type);
 }

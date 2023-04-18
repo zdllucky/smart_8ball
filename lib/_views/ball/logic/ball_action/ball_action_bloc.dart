@@ -20,12 +20,22 @@ class BallActionBloc extends Bloc<BallActionEvent, BallActionState> {
             case BallActionInitial:
               emit(BallActionRecording((event as StartRecording).side));
               break;
-            case BallActionRecording:
-              emit(BallActionRecording((event as StartRecording).side,
-                  continues: true));
-              break;
             default:
               emit(BallActionInitial(reset: true));
+          }
+          break;
+        case ContinueRecordingOrSubmit:
+          if (state is BallActionRecording) {
+            final e = event as ContinueRecordingOrSubmit;
+
+            if (e.canSubmit && e.side > .7) {
+              emit(BallActionWriting());
+            } else {
+              emit(BallActionRecording(
+                event.side,
+                continues: true,
+              ));
+            }
           }
           break;
         case StartWriting:
@@ -54,11 +64,7 @@ class BallActionBloc extends Bloc<BallActionEvent, BallActionState> {
           }
           break;
         case StopRecording:
-          if (state is BallActionRecording) {
-            emit(BallActionInitial());
-          } else {
-            emit(BallActionInitial(reset: true));
-          }
+          emit(BallActionInitial());
           break;
         case StopWriting:
           emit(BallActionInitial(reset: true));
@@ -77,9 +83,14 @@ class BallActionBloc extends Bloc<BallActionEvent, BallActionState> {
 
   @override
   void onTransition(Transition<BallActionEvent, BallActionState> transition) {
-    debugPrint("${transition.event.runtimeType}:");
-    debugPrint(
-        '${transition.currentState.runtimeType} -> ${transition.nextState.runtimeType}');
+    if (transition.currentState != transition.nextState &&
+        (transition.event is! ContinueRecordingOrSubmit ||
+            transition.nextState is! BallActionRecording ||
+            transition.nextState.runtimeType !=
+                transition.currentState.runtimeType)) {
+      debugPrint(
+          "${transition.event.runtimeType}:\t\t${transition.currentState.runtimeType} -> ${transition.nextState.runtimeType}");
+    }
     super.onTransition(transition);
   }
 }
