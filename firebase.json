@@ -3,29 +3,29 @@
     "singleProjectMode": true,
     "auth": {
       "port": 9099,
-      "host": "localhost"
+      "host": "0.0.0.0"
     },
     "functions": {
       "port": 5002,
-      "host": "localhost"
+      "host": "0.0.0.0"
     },
     "firestore": {
       "port": 8080,
-      "host": "localhost",
+      "host": "0.0.0.0",
       "rules": "firebase/firestore/firestore.rules"
     },
     "pubsub": {
       "port": 8085,
-      "host": "localhost"
+      "host": "0.0.0.0"
     },
     "hub": {
-      "host": "localhost",
+      "host": "0.0.0.0",
       "port": 4400
     },
     "ui": {
       "enabled": true,
       "port": 11111,
-      "host": "localhost"
+      "host": "0.0.0.0"
     }
   },
   "firestore": {
