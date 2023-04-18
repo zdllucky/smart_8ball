@@ -3,10 +3,10 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_8ball/_support/firestore/__.dart';
+import 'package:smart_8ball/_widgets/common/__.dart';
 
-import '../../../_support/firestore/__.dart';
-import '../../../_support/tries/__.dart';
-import '../../common/widgets/rounded_c_button.dart';
+import '../logic/tries_available_cubit.dart';
 
 class BallTries extends StatelessWidget {
   const BallTries({super.key});

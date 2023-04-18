@@ -3,9 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
-
-import '../../auth/__.dart';
-import '../../firestore/__.dart';
+import 'package:smart_8ball/_support/auth/__.dart';
+import 'package:smart_8ball/_support/firestore/__.dart';
 
 @lazySingleton
 class TriesAvailableCubit
