@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_8ball/_support/firestore/__.dart';
+import 'package:smart_8ball/_views/ball/__.dart';
 import 'package:smart_8ball/_widgets/c_r_t_screen/__.dart';
 import 'package:smart_8ball/_widgets/tries/__.dart';
 
-import '../../logic/ball_action/ball_action_bloc.dart';
-import 'ball.dart';
 import 'ball_animation_controller.dart';
 import 'ball_screen.dart';
+import 'ball_shape.dart';
 
 part 'ball_motion_handlers.dart';
 
@@ -29,6 +29,7 @@ class _BallMotionState extends State<BallMotion> {
   double windowSizeMultiplier = 1.1;
   double wobble = 0.0;
   bool _doesPanScreen = false;
+  bool _onceBounceOnSubmit = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +47,11 @@ class _BallMotionState extends State<BallMotion> {
 
               addEvent.call(BallWasReset());
               _end(controller: controller);
+            } else if (state is BallActionSubmittingText) {
+              _onceBounceOnSubmit = true;
+              _end(controller: controller);
             }
           },
-          listenWhen: (previous, current) =>
-              current is BallActionInitial && current.reset,
           builder: (context, state) => GestureDetector(
             onPanUpdate: (details) =>
                 _delayed(() => _update(details.localPosition, size)),
@@ -62,7 +64,7 @@ class _BallMotionState extends State<BallMotion> {
                     TriesAvailableModel(TriesAvailableResourcesModel(0));
                 final haveTries = tam.resources.basicTries > 0;
 
-                return Ball(
+                return BallShape(
                     diameter: size.shortestSide,
                     lightSource: lightSource,
                     child: Transform(

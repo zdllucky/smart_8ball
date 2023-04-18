@@ -30,10 +30,10 @@ class BallActionSubmittingAudio extends BallActionStateWithSide {
   BallActionSubmittingAudio() : super(const Offset(0, -.85));
 }
 
-class BallActionSubmittingText extends BallActionStateWithSide {
+class BallActionSubmittingText extends BallActionState {
   final String text;
 
-  BallActionSubmittingText(this.text) : super(const Offset(0, .85));
+  BallActionSubmittingText(this.text);
 }
 
 mixin AdvancedConditional on Object {

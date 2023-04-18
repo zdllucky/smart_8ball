@@ -13,6 +13,7 @@ class FBuilderCTField extends StatefulWidget {
     this.maxLines,
     this.autofocus = false,
     this.unFocusOnSwipe = false,
+    this.maxLength,
   });
   final String? Function(String?)? validator;
   final String name;
@@ -23,6 +24,7 @@ class FBuilderCTField extends StatefulWidget {
   final int? maxLines;
   final bool autofocus;
   final bool unFocusOnSwipe;
+  final int? maxLength;
 
   @override
   State<FBuilderCTField> createState() => _FBuilderCTFieldState();
@@ -65,7 +67,7 @@ class _FBuilderCTFieldState extends State<FBuilderCTField> {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         builder: (FormFieldState<String?> field) => CupertinoFormRow(
           padding: const EdgeInsets.symmetric(vertical: 6),
-          error: field.errorText != null
+          error: field.errorText != null && field.errorText!.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(field.errorText!),
@@ -75,6 +77,7 @@ class _FBuilderCTFieldState extends State<FBuilderCTField> {
               ? CupertinoTextField(
                   focusNode: _focusNode,
                   placeholder: widget.placeholder,
+                  maxLength: widget.maxLength,
                   obscureText: widget.obscureText,
                   minLines: widget.minLines,
                   maxLines: widget.maxLines,

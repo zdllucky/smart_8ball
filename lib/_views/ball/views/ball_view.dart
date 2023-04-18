@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_8ball/_widgets/tries/__.dart';
 
+import '../../../_widgets/ball/__.dart';
 import '../logic/ball_action/ball_action_bloc.dart';
-import '../widgets/ball/ball_motion.dart';
 import '../widgets/page_scaffold.dart';
 import '../widgets/prediction_text_input.dart';
 
@@ -45,8 +45,7 @@ class BallView extends StatelessWidget {
                       opacity: animation,
                       child: ScaleTransition(scale: animation, child: child),
                     ),
-                child: (state is BallActionWriting ||
-                        state is BallActionSubmittingText)
+                child: (state.isOneOf([BallActionWriting]))
                     ? const PredictionTextInput()
                     : const BallTries())
           ]),

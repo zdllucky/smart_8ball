@@ -6,7 +6,7 @@ extension on _BallMotionState {
     Size size,
   ) {
     /// Stop updating if the ball is in the process of writing or submitting
-    if (ballActionBloc.state is BallActionStateWithSide) return;
+    if (_isPanAllowedByBallState) return;
 
     /// Calculate screen position
     Offset tapPosition = Offset((2 * position.dx / size.width) - 1,
@@ -30,9 +30,7 @@ extension on _BallMotionState {
     Size size, {
     required AnimationController controller,
   }) {
-    if (ballActionBloc.state is BallActionStateWithSide || !_doesPanScreen) {
-      return;
-    }
+    if (_isPanAllowedByBallState || !_doesPanScreen) return;
 
     ballActionBloc.add(StartRecording(offset.dy));
     controller.forward(from: 0);
@@ -42,12 +40,16 @@ extension on _BallMotionState {
   _end({
     required AnimationController controller,
   }) {
-    if (ballActionBloc.state is BallActionStateWithSide) return;
+    if ((_isPanAllowedByBallState || !_doesPanScreen) && !_onceBounceOnSubmit) {
+      return;
+    }
     if (ballActionBloc.state is BallActionRecording) {
       ballActionBloc.add(StopRecording());
     }
 
     setState(() => _doesPanScreen = false);
+
+    _onceBounceOnSubmit = false;
     wobble = Random().nextDouble() * (wobble.isNegative ? 0.5 : -0.5);
     controller.reverse(from: 1);
   }
@@ -85,6 +87,8 @@ extension on _BallMotionState {
       return InitialHelp(animation: animation);
     } else if (ballActionBloc.state is BallActionRecording) {
       return Recording(animation: animation);
+    } else if (ballActionBloc.state is BallActionSubmittingText) {
+      return LoadingAnswer(animation: animation);
     }
 
     return TextResponse("", animation: animation);
@@ -96,4 +100,9 @@ extension on _BallMotionState {
 
   bool get haveTries =>
       (triesAvailableCubit.state?.data()?.resources.basicTries ?? 0) > 0;
+
+  bool get _isPanAllowedByBallState => ballActionBloc.state.isOneOf([
+        BallActionStateWithSide,
+        BallActionSubmittingText,
+      ]);
 }

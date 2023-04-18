@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class Ball extends StatelessWidget {
-  const Ball(
+class BallShape extends StatelessWidget {
+  const BallShape(
       {super.key,
       required this.diameter,
       required this.lightSource,
