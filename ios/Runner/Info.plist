@@ -47,5 +47,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>GADApplicationIdentifier</key>
+  <string>ca-app-pub-2556123726417262~4578571850</string>
 </dict>
 </plist>

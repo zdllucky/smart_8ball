@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^4.5.1
   device_info_plus: ^8.2.0
   record: ^4.4.4
+  google_mobile_ads: ^2.4.0
   
   
 dev_dependencies:
