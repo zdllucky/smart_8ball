@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -10,14 +9,13 @@ import 'package:smart_8ball/_support/di/__.dart';
 
 import '../misc/firebase_options.dart';
 
-@lazySingleton
 class AppRootService {
   late final AuthService _authService;
   bool isConfigured = false;
 
-  AppRootService();
-
+  @PostConstruct(preResolve: true)
   Future<void> configureApp() async {
+    /// Flutter hot restart within app
     if (isConfigured) {
       return;
     }
@@ -25,13 +23,13 @@ class AppRootService {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+
+    await configureDependencies();
+
     // FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(!kDebugMode);
 
     if (kDebugMode) {
       FirebaseFunctions.instance.useFunctionsEmulator('192.168.31.149', 9099);
-      FirebaseFirestore.instance.useFirestoreEmulator('192.168.31.149', 8080);
-
-      await FirebaseFirestore.instance.enableNetwork();
     }
 
     _authService = get();

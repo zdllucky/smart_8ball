@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:smart_8ball/_support/auth/__.dart';
-import 'package:smart_8ball/_support/di/__.dart';
 import 'package:smart_8ball/_support/router/__.dart';
 import 'package:smart_8ball/_widgets/tries/__.dart';
 
@@ -12,7 +11,7 @@ const theme = CupertinoThemeData(
 Future<Widget> appRootView() async {
   Paint.enableDithering = true;
 
-  await get<AppRootService>().configureApp();
+  await AppRootService().configureApp();
 
   return CupertinoApp.router(
       routerConfig: appRouter,
