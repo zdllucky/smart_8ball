@@ -6,11 +6,15 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:smart_8ball/_support/auth/__.dart';
 import 'package:smart_8ball/_support/di/__.dart';
+import 'package:smart_8ball/_support/router/__.dart';
+import 'package:smart_8ball/_widgets/tries/__.dart';
 
 import '../misc/firebase_options.dart';
+import '../misc/theme.dart';
 
 class AppRootService {
   late final AuthService _authService;
+  late final RouterService _routerService;
   bool isConfigured = false;
 
   @PostConstruct(preResolve: true)
@@ -33,6 +37,7 @@ class AppRootService {
     }
 
     _authService = get();
+    _routerService = get();
 
     final remoteConfig = FirebaseRemoteConfig.instance;
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
@@ -55,5 +60,16 @@ class AppRootService {
     } finally {
       await _authService.initAppAuthState();
     }
+  }
+
+  Future<Widget> appRootView() async {
+    Paint.enableDithering = true;
+
+    return CupertinoApp.router(
+        routerConfig: _routerService.router,
+        debugShowCheckedModeBanner: false,
+        builder: (context, child) =>
+            AuthProvider(child: TriesAvailableProvider(child: child)),
+        theme: theme);
   }
 }

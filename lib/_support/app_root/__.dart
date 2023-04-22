@@ -1,3 +1,3 @@
 library app_root;
 
-export 'views/app_root_view.dart';
+export 'services/app_root_service.dart';
