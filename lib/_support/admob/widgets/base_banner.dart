@@ -33,7 +33,7 @@ class _BaseBannerState extends State<BaseBanner> with TickerProviderStateMixin {
       reverseDuration: const Duration(milliseconds: 1000),
     );
     super.initState();
-    Future.delayed(const Duration(milliseconds: 0), () {
+    Future.delayed(const Duration(milliseconds: 1000), () {
       _controller
         ..forward(from: 0)
         ..addListener(() {
@@ -45,8 +45,7 @@ class _BaseBannerState extends State<BaseBanner> with TickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    debugPrint('Loading anchored adaptive banner');
-    _loadAd();
+    Future.delayed(const Duration(milliseconds: 1000), () => _loadAd());
   }
 
   @override
