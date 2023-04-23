@@ -41,7 +41,7 @@ class _LoadingAnswerState extends State<LoadingAnswer> {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: 48),
+        const SizedBox(height: 48),
         Transform.rotate(
           angle: pi / 2,
           origin: const Offset(-5, -25),

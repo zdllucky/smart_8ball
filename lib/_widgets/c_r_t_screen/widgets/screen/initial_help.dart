@@ -45,8 +45,6 @@ class _InitialHelpState extends State<InitialHelp>
         ),
       );
 
-  Widget get _glowTextArrowUp => _glowTextArrow(true);
-
   Widget get _glowTextArrowDown => _glowTextArrow(false);
 
   @override

@@ -36,7 +36,7 @@ class BallScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: RadialGradient(
                   colors: [
-                    Color(0x661F1F1F),
+                    const Color(0x661F1F1F),
                     CupertinoColors.black.withOpacity(.8),
                   ],
                   center:

@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_8ball/_support/firestore/__.dart';
 import 'package:smart_8ball/_views/ball/__.dart';
 import 'package:smart_8ball/_widgets/c_r_t_screen/__.dart';
 import 'package:smart_8ball/_widgets/tries/__.dart';
@@ -57,35 +55,24 @@ class _BallMotionState extends State<BallMotion> {
                 _delayed(() => _update(details.localPosition, size)),
             onPanStart: (details) => _delayed(() =>
                 _start(details.localPosition, size, controller: controller)),
-            child: BlocBuilder<TriesAvailableCubit,
-                DocumentSnapshot<TriesAvailableModel>?>(
-              builder: (context, triesState) {
-                final tam = triesState?.data() ??
-                    TriesAvailableModel(TriesAvailableResourcesModel(0));
-                final haveTries = tam.resources.basicTries > 0;
-
-                return BallShape(
-                    diameter: size.shortestSide,
-                    lightSource: lightSource,
-                    child: Transform(
-                      origin:
-                          Size.square(size.shortestSide).center(Offset.zero),
-                      transform: _ballScreenTransform(windowPosition, size),
-                      child: Listener(
-                        onPointerDown: (_) =>
-                            setState(() => _doesPanScreen = true),
-                        onPointerUp: (_) =>
-                            _delayed(_end(controller: controller)),
-                        child: BallScreen(
-                            lightSource: lightSource - windowPosition,
-                            opacity: _ballScreenOpacity(controller: controller),
-                            child: Transform.rotate(
-                                angle: wobble,
-                                child: CRTScreen(builder: _ballScreenBuilder))),
-                      ),
-                    ));
-              },
-            ),
+            onPanEnd: (_) => _delayed(_end(controller: controller)),
+            child: BallShape(
+                diameter: size.shortestSide,
+                lightSource: lightSource,
+                child: Transform(
+                  origin: Size.square(size.shortestSide).center(Offset.zero),
+                  transform: _ballScreenTransform(windowPosition, size),
+                  child: Listener(
+                    onPointerDown: (_) => setState(() => _doesPanScreen = true),
+                    onPointerUp: (_) => setState(() => _doesPanScreen = false),
+                    child: BallScreen(
+                        lightSource: lightSource - windowPosition,
+                        opacity: _ballScreenOpacity(controller: controller),
+                        child: Transform.rotate(
+                            angle: wobble,
+                            child: CRTScreen(builder: _ballScreenBuilder))),
+                  ),
+                )),
           ),
         );
       },

@@ -1,4 +1,4 @@
-library CRTScreen;
+library c_r_t_screen;
 
 export 'widgets/c_r_t_screen.dart';
 export 'widgets/screen/initial_help.dart';

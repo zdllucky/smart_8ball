@@ -11,7 +11,7 @@ import 'package:smart_8ball/_widgets/common/__.dart';
 import '../logic/ball_action/ball_action_bloc.dart';
 
 class PageScaffold extends StatefulWidget {
-  PageScaffold({super.key, required this.child});
+  const PageScaffold({super.key, required this.child});
 
   final Widget child;
 

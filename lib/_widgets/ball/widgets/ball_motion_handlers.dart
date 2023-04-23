@@ -40,7 +40,7 @@ extension on _BallMotionState {
   _end({
     required AnimationController controller,
   }) {
-    if ((_isPanAllowedByBallState || !_doesPanScreen) && !_onceBounceOnSubmit) {
+    if (_isPanAllowedByBallState && !_onceBounceOnSubmit) {
       return;
     }
     if (ballActionBloc.state is BallActionRecording) {
@@ -101,8 +101,6 @@ extension on _BallMotionState {
   bool get haveTries =>
       (triesAvailableCubit.state?.data()?.resources.basicTries ?? 0) > 0;
 
-  bool get _isPanAllowedByBallState => ballActionBloc.state.isOneOf([
-        BallActionStateWithSide,
-        BallActionSubmittingText,
-      ]);
+  bool get _isPanAllowedByBallState => ballActionBloc.state
+      .isOneOf([BallActionStateWithSide, BallActionSubmittingText]);
 }
