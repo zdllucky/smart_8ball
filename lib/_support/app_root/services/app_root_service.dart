@@ -1,5 +1,7 @@
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -30,10 +32,17 @@ class AppRootService {
 
     await configureDependencies();
 
-    // FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(!kDebugMode);
+    FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
 
     if (kDebugMode) {
       FirebaseFunctions.instance.useFunctionsEmulator('192.168.31.149', 9099);
+    } else {
+      FlutterError.onError =
+          FirebaseCrashlytics.instance.recordFlutterFatalError;
+      PlatformDispatcher.instance.onError = (error, stack) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        return true;
+      };
     }
 
     _authService = get();

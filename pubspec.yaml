@@ -40,6 +40,7 @@ dependencies:
   device_info_plus: ^8.2.0
   record: ^4.4.4
   google_mobile_ads: ^2.4.0
+  firebase_crashlytics: ^3.1.1
   
   
 dev_dependencies:
