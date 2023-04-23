@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_8ball/_support/firestore/__.dart';
 import 'package:smart_8ball/_widgets/common/__.dart';
 
@@ -33,7 +34,7 @@ class BallTries extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 4),
-                    child: Text('${tam.resources.basicTries} tries',
+                    child: Text('${tam.resources.basicTries} questions left',
                         style: TextStyle(
                           fontWeight: FontWeight.w200,
                           color: CupertinoColors.white.withOpacity(.8),
@@ -41,11 +42,14 @@ class BallTries extends StatelessWidget {
                         )),
                   ),
                   const SizedBox(width: 8),
-                  const RoundedCButton(
-                    padding: EdgeInsets.all(0),
+                  RoundedCButton(
+                    padding: const EdgeInsets.all(0),
                     minSize: 28,
                     filled: true,
-                    child: Icon(CupertinoIcons.add, size: 24),
+                    child: const Icon(CupertinoIcons.add, size: 24),
+                    onPressed: () {
+                      context.push('/tries-options');
+                    },
                   )
                 ],
               ),

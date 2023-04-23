@@ -6,6 +6,7 @@ import 'package:smart_8ball/_views/dev_playground/__.dart';
 import 'package:smart_8ball/_views/profile/__.dart';
 import 'package:smart_8ball/_views/sign_in/__.dart';
 import 'package:smart_8ball/_views/sign_up/__.dart';
+import 'package:smart_8ball/_views/tries_options/__.dart';
 import 'package:smart_8ball/_widgets/alert/__.dart';
 
 import '../widgets/prev_page_redirect.dart';
@@ -23,11 +24,14 @@ class RouterService {
           path: '/',
           redirect: (_, __) => '/ball',
         ),
-        GoRoute(path: '/ball', builder: (context, state) => BallView())
-            .withDialog(),
         GoRoute(
-            path: '/dev-playground',
-            builder: (context, state) => const DevPlaygroundView()),
+          path: '/ball',
+          builder: (context, state) => BallView(),
+        ).withDialog(),
+        GoRoute(
+          path: '/dev-playground',
+          builder: (context, state) => const DevPlaygroundView(),
+        ),
         GoRoute(
           path: '/sign-in',
           builder: (context, state) => PrevPageRedirect(
@@ -38,10 +42,21 @@ class RouterService {
         GoRoute(
           path: '/sign-up',
           builder: (context, state) => PrevPageRedirect(
-              predicate: _authedRedirectPredicate, child: const SignUpView()),
+            predicate: _authedRedirectPredicate,
+            child: const SignUpView(),
+          ),
         ),
         GoRoute(
-            path: '/profile', builder: (context, state) => const ProfileView()),
+          path: '/profile',
+          builder: (context, state) => const ProfileView(),
+        ),
+        GoRoute(
+          path: '/tries-options',
+          builder: (context, state) => PrevPageRedirect(
+            predicate: _authedRedirectPredicate,
+            child: const TriesOptionsView(),
+          ),
+        ),
       ],
     );
   }

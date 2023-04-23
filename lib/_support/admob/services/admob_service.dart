@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_8ball/_support/admob/consts/ad_identifiers.dart';
 
 @lazySingleton
 class AdmobService {
@@ -15,14 +19,17 @@ class AdmobService {
       await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
           width.truncate());
 
-  Future<BannerAd?> createBannerAd(double width,
-      {void Function(Ad)? onAdLoaded,
-      void Function(Ad, LoadAdError)? onAdFailedToLoad}) async {
+  Future<BannerAd?> createBannerAd(
+    double width, {
+    void Function(Ad)? onAdLoaded,
+    void Function(Ad, LoadAdError)? onAdFailedToLoad,
+    bool isTest = kDebugMode,
+  }) async {
     final AnchoredAdaptiveBannerAdSize? size = await _getPossibleAdSize(width);
     if (size == null) return null;
 
     return BannerAd(
-      adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+      adUnitId: AdIdentifiers.baseBanner.decide(kDebugMode, Platform.isIOS),
       size: size,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -30,5 +37,19 @@ class AdmobService {
         onAdFailedToLoad: onAdFailedToLoad,
       ),
     )..load();
+  }
+
+  Future<RewardedAd> createAddTryAd() async {
+    late RewardedAd rewardedAd;
+
+    await RewardedAd.load(
+        adUnitId: AdIdentifiers.addTryAd.decide(kDebugMode, Platform.isIOS),
+        request: const AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+          onAdLoaded: (RewardedAd ad) => rewardedAd = ad,
+          onAdFailedToLoad: (LoadAdError error) => throw error,
+        ));
+
+    return rewardedAd;
   }
 }
