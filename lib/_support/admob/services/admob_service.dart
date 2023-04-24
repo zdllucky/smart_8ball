@@ -39,17 +39,12 @@ class AdmobService {
     )..load();
   }
 
-  Future<RewardedAd> createAddTryAd() async {
+  Future<void> createAddTryAd(RewardedAdLoadCallback callback) async {
     late RewardedAd rewardedAd;
 
     await RewardedAd.load(
         adUnitId: AdIdentifiers.addTryAd.decide(kDebugMode, Platform.isIOS),
         request: const AdRequest(),
-        rewardedAdLoadCallback: RewardedAdLoadCallback(
-          onAdLoaded: (RewardedAd ad) => rewardedAd = ad,
-          onAdFailedToLoad: (LoadAdError error) => throw error,
-        ));
-
-    return rewardedAd;
+        rewardedAdLoadCallback: callback);
   }
 }
