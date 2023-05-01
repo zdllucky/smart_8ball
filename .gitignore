@@ -48,3 +48,7 @@ sandbox
 **/*.g.dart
 **/*.freezed.dart
 **/*.config.dart
+.gitsecret/keys/random_seed
+!*.secret
+firebase/functions/src/https/routes/admob/consts/secrets.prod.json
+firebase/functions/src/https/helpers/envs/sa.prod.json

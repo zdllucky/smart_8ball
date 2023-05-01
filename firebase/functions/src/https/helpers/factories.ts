@@ -7,11 +7,13 @@ import {
 } from "express-zod-api";
 import { config } from "../index";
 import admin from "./admin";
+import { isEmulator } from "./misc";
 
 export const basicFactory = new EndpointsFactory({
   resultHandler: defaultResultHandler,
   config,
 })
+  .addOptions({ isEmulator })
   .addExpressMiddleware(json())
   .addExpressMiddleware(urlencoded({ extended: true }))
   .addOptions({ admin });

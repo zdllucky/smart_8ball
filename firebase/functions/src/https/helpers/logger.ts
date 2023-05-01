@@ -4,7 +4,7 @@ import { LoggingWinston } from "@google-cloud/logging-winston";
 const loggingWinston = new LoggingWinston();
 
 const logger = winston.createLogger({
-  level: "info",
+  level: "debug",
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(
