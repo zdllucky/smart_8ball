@@ -6,7 +6,11 @@ export const Collections = {
     name: "anonymousUserLinks",
     documentModel: z.object({ linksTo: z.string().array() }),
   },
-  resourcesAvailable: {
+  userLink: {
+    name: "linksTo",
+    documentModel: z.object({ linkedAt: z.string().datetime() }),
+  },
+  triesAvailable: {
     name: "triesAvailable",
     documentModel: z.object({
       subjectType: SubjectTypeModel,
