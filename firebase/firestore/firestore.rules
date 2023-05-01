@@ -7,8 +7,7 @@ service cloud.firestore {
 
     function isUserIdInArray(docId) {
       return isSignedIn() &&
-             exists(/databases/$(database)/documents/anonymousUserLinks/$(docId)) &&
-             request.auth.uid in get(/databases/$(database)/documents/anonymousUserLinks/$(docId)).data.linksTo;
+             exists(/databases/$(database)/documents/anonymousUserLinks/$(docId)/linksTo/$(request.auth.uid));
     }
 
     function isAnonymousUser() {
@@ -20,24 +19,29 @@ service cloud.firestore {
     }
 
 
-    match /anonymousUserLinks/{deviceId} {
-      allow delete, list: if false;
-      allow get: if
-        isSignedIn() &&
-        resource.data.linksTo.hasAll([request.auth.uid]);
-      allow create: if
-        request.auth != null &&
-        request.resource.data.keys().size() == 1 &&
-        request.resource.data.keys().hasOnly(['linksTo']) &&
-        request.resource.data.linksTo is list &&
-        request.resource.data.linksTo.size() == 1;
 
-      allow update: if
-        isAnonymousUser() &&
-        request.resource.data.linksTo.size() == resource.data.linksTo.size() + 1 &&
-        request.resource.data.linksTo.hasAll(resource.data.linksTo) &&
-        !resource.data.linksTo.hasAll(request.resource.data.linksTo)
-      ;
+    match /anonymousUserLinks/{deviceId} {
+      allow create: if
+        isSignedIn() &&
+        request.resource.data.keys().hasOnly(['linksTo']) &&
+        request.resource.data.linksTo is map &&
+        request.resource.data.linksTo.keys().size() == 0;
+
+      allow get: if isSignedIn();
+
+
+
+      match /linksTo/{userId} {
+        allow create: if
+          isSignedIn() &&
+          userId == request.auth.uid &&
+          request.resource.data.keys().hasOnly(['linkedAt']);
+
+        allow get: if
+          isSignedIn() &&
+          userId == request.auth.uid;
+
+      }
     }
 
     match /triesAvailable/{deviceOrUserId} {
