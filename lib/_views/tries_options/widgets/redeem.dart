@@ -2,19 +2,29 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:smart_8ball/_support/admob/__.dart';
+import 'package:smart_8ball/_support/app_root/__.dart';
+import 'package:smart_8ball/_support/auth/__.dart';
 import 'package:smart_8ball/_support/di/__.dart';
+import 'package:smart_8ball/_support/functions/__.dart';
 import 'package:smart_8ball/_widgets/alert/__.dart';
 import 'package:smart_8ball/_widgets/common/__.dart';
 
+import '../helpers/mock.dart';
+
 class Redeem extends StatelessWidget {
   const Redeem(AdmobService admobService, AlertCubit alertCubit,
+      AuthService authService, FunctionsService functionsService,
       {super.key, void Function(bool)? adLoading})
       : _admobService = admobService,
         _adLoading = adLoading,
-        _alertCubit = alertCubit;
+        _alertCubit = alertCubit,
+        _authService = authService,
+        _functionsService = functionsService;
 
   final AdmobService _admobService;
   final AlertCubit _alertCubit;
+  final AuthService _authService;
+  final FunctionsService _functionsService;
   final void Function(bool)? _adLoading;
 
   void _adLoadingSafe(loading) {
@@ -36,28 +46,43 @@ class Redeem extends StatelessWidget {
     ));
   }
 
-  void _showAd(RewardedAd ad) => ad
-    ..fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (ad) => _adLoadingSafe(false),
-      onAdImpression: (ad) => _adLoadingSafe(false),
-      onAdFailedToShowFullScreenContent: (ad, err) {
-        _adLoadingSafe(false);
+  Future<void> _showAd(RewardedAd ad) async {
+    await ad.withCustomSSVOptions(
+      _authService.user,
+      options: {"deviceId": _authService.deviceId},
+    );
+
+    ad
+      ..fullScreenContentCallback = FullScreenContentCallback(
+        onAdShowedFullScreenContent: (ad) => _adLoadingSafe(false),
+        onAdImpression: (ad) => _adLoadingSafe(false),
+        onAdFailedToShowFullScreenContent: (ad, err) {
+          _adLoadingSafe(false);
+          _alertCubit.showAlertDialog(BasicAlert(
+            alert: const Text('Oops...'),
+            content: Text(err.message),
+          ));
+          ad.dispose();
+        },
+        onAdDismissedFullScreenContent: (ad) => ad.dispose(),
+      )
+      ..show(onUserEarnedReward: (ad, reward) {
+        debugPrint('User earned reward of ${reward.amount} ${reward.type}');
+        if (Mode.isEmulator) {
+          Mock.admobAddTryAdCallback(
+            _functionsService,
+            _authService,
+            ad.adUnitId,
+            reward,
+          );
+        }
         _alertCubit.showAlertDialog(BasicAlert(
-          alert: const Text('Oops...'),
-          content: Text(err.message),
+          alert: const Text('Success!'),
+          content: const Text('You now have +1 more questions to ask!'),
         ));
         ad.dispose();
-      },
-      onAdDismissedFullScreenContent: (ad) => ad.dispose(),
-    )
-    ..show(onUserEarnedReward: (ad, reward) {
-      debugPrint('User earned reward of ${reward.amount} ${reward.type}');
-      _alertCubit.showAlertDialog(BasicAlert(
-        alert: const Text('Success!'),
-        content: const Text('You now have +1 more questions to ask!'),
-      ));
-      ad.dispose();
-    });
+      });
+  }
 
   @override
   Widget build(BuildContext context) {

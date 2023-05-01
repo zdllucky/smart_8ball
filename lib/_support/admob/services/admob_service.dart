@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:injectable/injectable.dart';
-import 'package:smart_8ball/_support/admob/consts/ad_identifiers.dart';
+import 'package:smart_8ball/_support/app_root/__.dart';
+
+import '../consts/ad_identifiers.dart';
 
 @lazySingleton
 class AdmobService {
@@ -23,13 +26,14 @@ class AdmobService {
     double width, {
     void Function(Ad)? onAdLoaded,
     void Function(Ad, LoadAdError)? onAdFailedToLoad,
-    bool isTest = kDebugMode,
+    bool isTest = Mode.isEmulator,
   }) async {
     final AnchoredAdaptiveBannerAdSize? size = await _getPossibleAdSize(width);
     if (size == null) return null;
 
     return BannerAd(
-      adUnitId: AdIdentifiers.baseBanner.decide(kDebugMode, Platform.isIOS),
+      adUnitId:
+          AdIdentifiers.baseBanner.decide(Mode.isEmulator, Platform.isIOS),
       size: size,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -40,11 +44,19 @@ class AdmobService {
   }
 
   Future<void> createAddTryAd(RewardedAdLoadCallback callback) async {
-    late RewardedAd rewardedAd;
-
     await RewardedAd.load(
-        adUnitId: AdIdentifiers.addTryAd.decide(kDebugMode, Platform.isIOS),
+        adUnitId:
+            AdIdentifiers.addTryAd.decide(Mode.isEmulator, Platform.isIOS),
         request: const AdRequest(),
         rewardedAdLoadCallback: callback);
   }
+}
+
+extension Ext on RewardedAd {
+  Future<void> withCustomSSVOptions(User? user,
+          {Map<String, dynamic>? options}) async =>
+      await setServerSideOptions(ServerSideVerificationOptions(
+        userId: user?.uid,
+        customData: json.encode(options ?? {}),
+      ));
 }

@@ -37,6 +37,8 @@ class _TriesOptionsViewState extends State<TriesOptionsView> {
                         Redeem(
                           get(),
                           get(),
+                          get(),
+                          get(),
                           adLoading: (bool loading) =>
                               setState(() => blurScreen = loading),
                         ),
