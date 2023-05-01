@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -12,6 +14,7 @@ import 'package:smart_8ball/_support/router/__.dart';
 import 'package:smart_8ball/_widgets/tries/__.dart';
 
 import '../misc/firebase_options.dart';
+import '../misc/mode.dart';
 import '../misc/theme.dart';
 
 class AppRootService {
@@ -26,6 +29,9 @@ class AppRootService {
       return;
     }
     isConfigured = true;
+
+    debugPrint('Configuring app in ${const Mode()} mode...');
+
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -34,7 +40,7 @@ class AppRootService {
 
     FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
 
-    if (kDebugMode) {
+    if (Mode.isEmulator) {
       FirebaseFunctions.instance.useFunctionsEmulator('192.168.31.149', 9099);
     } else {
       FlutterError.onError =
@@ -43,6 +49,15 @@ class AppRootService {
         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
         return true;
       };
+
+      Isolate.current.addErrorListener(RawReceivePort((pair) async {
+        final List<dynamic> errorAndStacktrace = pair;
+        await FirebaseCrashlytics.instance.recordError(
+          errorAndStacktrace.first,
+          errorAndStacktrace.last,
+          fatal: true,
+        );
+      }).sendPort);
     }
 
     _authService = get();
@@ -51,8 +66,9 @@ class AppRootService {
     final remoteConfig = FirebaseRemoteConfig.instance;
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(minutes: 1),
-      minimumFetchInterval:
-          kDebugMode ? const Duration(minutes: 3) : const Duration(hours: 1),
+      minimumFetchInterval: Mode.isEmulator
+          ? const Duration(minutes: 3)
+          : const Duration(hours: 1),
     ));
 
     await remoteConfig.fetchAndActivate();
