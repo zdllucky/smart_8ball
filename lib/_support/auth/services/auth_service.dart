@@ -5,8 +5,10 @@ import 'dart:math';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_8ball/_support/app_root/__.dart';
 
 import '../../firestore/__.dart';
 
@@ -16,36 +18,39 @@ class AuthService {
 
   final AnonymousUserLinksRepo _anonymousUserLinksRepo;
   FirebaseAuth get provider => FirebaseAuth.instance;
+  User? get user => FirebaseAuth.instance.currentUser;
   FirebaseAnalytics get _analytics => FirebaseAnalytics.instance;
+  FirebaseCrashlytics get crashlytics => FirebaseCrashlytics.instance;
   String? _deviceId;
 
   String? get deviceId => _deviceId;
 
   Future<void> initAppAuthState({bool includeAnalytics = true}) async {
     // Connect to the firebase auth emulator if in debug mode
-    if (kDebugMode) await provider.useAuthEmulator('192.168.31.149', 9099);
+    if (Mode.isEmulator) await provider.useAuthEmulator('192.168.31.149', 9099);
+    _deviceId = await _getDeviceId();
 
     // If the user is not signed in, sign them in anonymously
-    if (provider.currentUser == null || kDebugMode) {
-      await signInAnonymously();
-    }
-
-    // Set the user id for analytics
-    if (!kDebugMode && includeAnalytics) {
-      _analytics.setUserId(id: provider.currentUser?.uid);
-    }
+    await signInAnonymously(resetSession: kDebugMode);
   }
 
-  Future<void> signInAnonymously() async {
+  Future<void> signInAnonymously({bool resetSession = true}) async {
     final dId = await _getDeviceId();
-
+    if (resetSession) await provider.signOut();
     await provider.signInAnonymously();
 
     final userId = provider.currentUser!.uid;
 
+    // Set the user id for analytics
+    if (!Mode.isEmulator) {
+      _analytics.setUserId(id: userId);
+      crashlytics.setUserIdentifier(userId);
+    }
+
     // TODO: Move this to a cloud function
 
-    if (kDebugMode) print('Linking anonymous user $userId to device $dId...');
+    debugPrint('Linking anonymous user $userId to device $dId...');
+    await _anonymousUserLinksRepo.registerDeviceId(dId);
     await _anonymousUserLinksRepo.linkAnonymousUserToDevice(
         deviceId: dId, userId: provider.currentUser!.uid);
 
