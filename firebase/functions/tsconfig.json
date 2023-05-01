@@ -3,16 +3,24 @@
     "module": "commonjs",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "noImplicitAny": false,
     "outDir": "lib",
     "esModuleInterop": true,
     "sourceMap": true,
     "strict": true,
     "target": "es2017",
-    "resolveJsonModule": true,
+    "lib": [
+      "es2017"
+    ],
+    "baseUrl": "./src",
+    "resolveJsonModule": true
   },
   "compileOnSave": true,
   "include": [
-    "src"
+    "src/**/*"
   ],
+  "typeAcquisition": {
+    "enable": true
+  },
   "resolveJsonModule": true
 }
