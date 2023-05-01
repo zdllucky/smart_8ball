@@ -32,9 +32,12 @@ class TriesAvailableCubit
     await _docUnsubscribe();
 
     if (userId != null) {
-      _docSubscription = _triesAvailableRepo.subscribeToTriesAvailableDocument(
-              _authCubit.state!.isAnonymous ? _authService.deviceId! : userId!)(
-          emit);
+      final id = _authCubit.state!.isAnonymous ? _authService.deviceId : userId;
+
+      if (id != null) {
+        _docSubscription =
+            _triesAvailableRepo.subscribeToTriesAvailableDocument(id)(emit);
+      }
     }
   }
 
