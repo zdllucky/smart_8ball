@@ -1,25 +1,25 @@
 import 'dart:isolate';
 
-import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_8ball/_support/analytics/__.dart';
+import 'package:smart_8ball/_support/app_root/__.dart';
 import 'package:smart_8ball/_support/auth/__.dart';
 import 'package:smart_8ball/_support/di/__.dart';
 import 'package:smart_8ball/_support/router/__.dart';
 import 'package:smart_8ball/_widgets/tries/__.dart';
 
 import '../misc/firebase_options.dart';
-import '../misc/mode.dart';
 import '../misc/theme.dart';
 
 class AppRootService {
   late final AuthService _authService;
   late final RouterService _routerService;
+  late final CrashlyticsService _crashlyticsService;
   bool isConfigured = false;
 
   @PostConstruct(preResolve: true)
@@ -38,13 +38,12 @@ class AppRootService {
 
     await configureDependencies();
 
-    FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
+    if (!Mode.isEmulator) {
+      get<AnalyticsService>();
 
-    if (Mode.isEmulator) {
-      FirebaseFunctions.instance.useFunctionsEmulator('192.168.31.149', 9099);
-    } else {
       FlutterError.onError =
           FirebaseCrashlytics.instance.recordFlutterFatalError;
+
       PlatformDispatcher.instance.onError = (error, stack) {
         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
         return true;
@@ -59,6 +58,13 @@ class AppRootService {
         );
       }).sendPort);
     }
+
+    _crashlyticsService = get();
+
+    _crashlyticsService
+      ..logBasicErrors()
+      ..logAsyncStreamErrors()
+      ..logPlatformErrors();
 
     _authService = get();
     _routerService = get();

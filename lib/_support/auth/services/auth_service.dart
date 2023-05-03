@@ -3,28 +3,29 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_8ball/_support/analytics/__.dart';
 import 'package:smart_8ball/_support/app_root/__.dart';
 
 import '../../firestore/__.dart';
 
 @lazySingleton
 class AuthService {
-  AuthService(this._anonymousUserLinksRepo);
-
+  final CrashlyticsService _crashlyticsService;
+  final AnalyticsService _analyticsService;
   final AnonymousUserLinksRepo _anonymousUserLinksRepo;
-  FirebaseAuth get provider => FirebaseAuth.instance;
-  User? get user => FirebaseAuth.instance.currentUser;
-  FirebaseAnalytics get _analytics => FirebaseAnalytics.instance;
-  FirebaseCrashlytics get crashlytics => FirebaseCrashlytics.instance;
   String? _deviceId;
 
+  FirebaseAuth get provider => FirebaseAuth.instance;
+  User? get user => provider.currentUser;
   String? get deviceId => _deviceId;
 
+  AuthService(this._anonymousUserLinksRepo, this._analyticsService,
+      this._crashlyticsService);
+
+  @FactoryMethod(preResolve: true)
   Future<void> initAppAuthState({bool includeAnalytics = true}) async {
     // Connect to the firebase auth emulator if in debug mode
     if (Mode.isEmulator) await provider.useAuthEmulator('192.168.31.149', 9099);
@@ -43,16 +44,19 @@ class AuthService {
 
     // Set the user id for analytics
     if (!Mode.isEmulator) {
-      _analytics.setUserId(id: userId);
-      crashlytics.setUserIdentifier(userId);
-    }
+      _analyticsService
+        ..user = userId
+        ..userParams = {"type": "anonymous", "deviceId": dId};
 
-    // TODO: Move this to a cloud function
+      _crashlyticsService.userIdentifier = userId;
+    }
 
     debugPrint('Linking anonymous user $userId to device $dId...');
     await _anonymousUserLinksRepo.registerDeviceId(dId);
     await _anonymousUserLinksRepo.linkAnonymousUserToDevice(
-        deviceId: dId, userId: provider.currentUser!.uid);
+      deviceId: dId,
+      userId: provider.currentUser!.uid,
+    );
 
     _deviceId = dId;
   }

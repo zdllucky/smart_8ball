@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_8ball/_support/analytics/__.dart';
 import 'package:smart_8ball/_support/auth/__.dart';
 import 'package:smart_8ball/_views/ball/views/ball_view.dart';
 import 'package:smart_8ball/_views/dev_playground/__.dart';
@@ -11,14 +12,41 @@ import 'package:smart_8ball/_widgets/alert/__.dart';
 
 import '../widgets/prev_page_redirect.dart';
 
+class AnalyticsGoRouter extends GoRouter {
+  final AnalyticsService _analyticsService;
+
+  AnalyticsGoRouter({
+    required List<RouteBase> routes,
+    required AnalyticsService analyticsService,
+  })  : _analyticsService = analyticsService,
+        super(routes: routes) {
+    addListener(_onRouteChanged);
+  }
+
+  void _onRouteChanged() {
+    _analyticsService.logScreenView(screenName: location);
+  }
+
+  @override
+  void dispose() {
+    removeListener(_onRouteChanged);
+    super.dispose();
+  }
+}
+
 // TODO: Provide isolation for router via named getit
 @lazySingleton
 class RouterService {
   final AuthService _authService;
+  final AnalyticsService _analyticsService;
   late final GoRouter router;
 
-  RouterService(this._authService) {
-    router = GoRouter(
+  RouterService(
+    this._authService,
+    this._analyticsService,
+  ) {
+    router = AnalyticsGoRouter(
+      analyticsService: _analyticsService,
       routes: [
         GoRoute(
           path: '/',
