@@ -17,6 +17,7 @@ class AuthService {
   final AnalyticsService _analyticsService;
   final AnonymousUserLinksRepo _anonymousUserLinksRepo;
   String? _deviceId;
+  bool _isInitialized = false;
 
   FirebaseAuth get provider => FirebaseAuth.instance;
   User? get user => provider.currentUser;
@@ -25,8 +26,10 @@ class AuthService {
   AuthService(this._anonymousUserLinksRepo, this._analyticsService,
       this._crashlyticsService);
 
-  @FactoryMethod(preResolve: true)
-  Future<void> initAppAuthState({bool includeAnalytics = true}) async {
+  Future<void> init() async {
+    if (_isInitialized) return;
+    _isInitialized = true;
+
     // Connect to the firebase auth emulator if in debug mode
     if (Mode.isEmulator) await provider.useAuthEmulator('192.168.31.149', 9099);
     _deviceId = await _getDeviceId();

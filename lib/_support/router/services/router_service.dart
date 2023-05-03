@@ -34,60 +34,59 @@ class AnalyticsGoRouter extends GoRouter {
   }
 }
 
-// TODO: Provide isolation for router via named getit
 @lazySingleton
 class RouterService {
   final AuthService _authService;
   final AnalyticsService _analyticsService;
-  late final GoRouter router;
+  GoRouter? _router;
 
   RouterService(
     this._authService,
     this._analyticsService,
-  ) {
-    router = AnalyticsGoRouter(
-      analyticsService: _analyticsService,
-      routes: [
-        GoRoute(
-          path: '/',
-          redirect: (_, __) => '/ball',
-        ),
-        GoRoute(
-          path: '/ball',
-          builder: (context, state) => BallView(),
-        ).withDialog(),
-        GoRoute(
-          path: '/dev-playground',
-          builder: (context, state) => const DevPlaygroundView(),
-        ),
-        GoRoute(
-          path: '/sign-in',
-          builder: (context, state) => PrevPageRedirect(
-            predicate: _authedRedirectPredicate,
-            child: const SignInView(),
+  );
+
+  GoRouter get router => _router ??= AnalyticsGoRouter(
+        analyticsService: _analyticsService,
+        routes: [
+          GoRoute(
+            path: '/',
+            redirect: (_, __) => '/ball',
           ),
-        ),
-        GoRoute(
-          path: '/sign-up',
-          builder: (context, state) => PrevPageRedirect(
-            predicate: _authedRedirectPredicate,
-            child: const SignUpView(),
+          GoRoute(
+            path: '/ball',
+            builder: (context, state) => BallView(),
+          ).withDialog(),
+          GoRoute(
+            path: '/dev-playground',
+            builder: (context, state) => const DevPlaygroundView(),
           ),
-        ),
-        GoRoute(
-          path: '/profile',
-          builder: (context, state) => const ProfileView(),
-        ),
-        GoRoute(
-          path: '/tries-options',
-          builder: (context, state) => PrevPageRedirect(
-            predicate: _authedRedirectPredicate,
-            child: const TriesOptionsView(),
+          GoRoute(
+            path: '/sign-in',
+            builder: (context, state) => PrevPageRedirect(
+              predicate: _authedRedirectPredicate,
+              child: const SignInView(),
+            ),
           ),
-        ),
-      ],
-    );
-  }
+          GoRoute(
+            path: '/sign-up',
+            builder: (context, state) => PrevPageRedirect(
+              predicate: _authedRedirectPredicate,
+              child: const SignUpView(),
+            ),
+          ),
+          GoRoute(
+            path: '/profile',
+            builder: (context, state) => const ProfileView(),
+          ),
+          GoRoute(
+            path: '/tries-options',
+            builder: (context, state) => PrevPageRedirect(
+              predicate: _authedRedirectPredicate,
+              child: const TriesOptionsView(),
+            ),
+          ),
+        ],
+      );
 
   bool _authedRedirectPredicate() =>
       !(_authService.provider.currentUser?.isAnonymous ?? false);

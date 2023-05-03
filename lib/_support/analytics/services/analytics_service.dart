@@ -1,13 +1,16 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
+@lazySingleton
 class AnalyticsService {
   FirebaseAnalytics get _provider => FirebaseAnalytics.instance;
+  bool _initialized = false;
 
-  @FactoryMethod(preResolve: true)
   Future<void> init() async {
-    _provider.setAnalyticsCollectionEnabled(true);
+    if (_initialized) return;
+    _initialized = true;
+
+    await _provider.setAnalyticsCollectionEnabled(true);
   }
 
   set user(String userId) => _provider.setUserId(id: userId);
@@ -20,4 +23,6 @@ class AnalyticsService {
     String? screenName,
     AnalyticsCallOptions? callOptions,
   }) get logScreenView => _provider.logScreenView;
+
+  Future<void> Function() get logAppOpen => _provider.logAppOpen;
 }
