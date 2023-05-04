@@ -8,6 +8,7 @@ abstract class Mock {
   static Future<void> admobAddTryAdCallback(
     FunctionsService functionsService,
     AuthService authService,
+    DeviceMetadataService deviceMetadataService,
     String adUnitId,
     RewardItem reward,
   ) async {
@@ -18,7 +19,7 @@ abstract class Mock {
     await client.get('v1/admob/adTryAdCallback/', queryParameters: {
       'ad_network': '5450213213286189855',
       'ad_unit': adUnitId,
-      'custom_data': '{"deviceId": "${authService.deviceId}"}',
+      'custom_data': '{"deviceId": "${deviceMetadataService.deviceId}"}',
       'reward_amount': reward.amount,
       'reward_item': reward.type,
       'user_id': authService.user!.uid,

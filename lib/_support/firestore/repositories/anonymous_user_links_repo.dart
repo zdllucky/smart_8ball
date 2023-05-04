@@ -10,7 +10,6 @@ class AnonymousUserLinksRepo {
   late final FirebaseFirestore _fs;
   late final CollectionReference<AnonymousUserLinkModel> _aulRef;
   static const _aul = 'anonymousUserLinks';
-  static const _ul = 'linksTo';
   final _getOptions = const GetOptions(source: Source.server);
 
   AnonymousUserLinksRepo(FirestoreService firestoreService) {
@@ -60,8 +59,9 @@ class AnonymousUserLinksRepo {
 }
 
 extension on DocumentReference<AnonymousUserLinkModel> {
-  CollectionReference<UserLink> get linksTo =>
-      collection('linksTo').withConverter(
+  static const _ul = 'linksTo';
+
+  CollectionReference<UserLink> get linksTo => collection(_ul).withConverter(
         fromFirestore: (snapshot, _) => UserLink.fromJson(snapshot.data()!),
         toFirestore: (model, _) => model.toJson(),
       );

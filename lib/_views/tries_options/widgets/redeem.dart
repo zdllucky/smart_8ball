@@ -12,19 +12,21 @@ import 'package:smart_8ball/_widgets/common/__.dart';
 import '../helpers/mock.dart';
 
 class Redeem extends StatelessWidget {
-  const Redeem(AdmobService admobService, AlertCubit alertCubit,
-      AuthService authService, FunctionsService functionsService,
-      {super.key, void Function(bool)? adLoading})
-      : _admobService = admobService,
-        _adLoading = adLoading,
-        _alertCubit = alertCubit,
-        _authService = authService,
-        _functionsService = functionsService;
+  const Redeem(
+    this._admobService,
+    this._authService,
+    this._alertCubit,
+    this._functionsService,
+    this._deviceMetadataService, {
+    super.key,
+    void Function(bool)? adLoading,
+  }) : _adLoading = adLoading;
 
   final AdmobService _admobService;
   final AlertCubit _alertCubit;
   final AuthService _authService;
   final FunctionsService _functionsService;
+  final DeviceMetadataService _deviceMetadataService;
   final void Function(bool)? _adLoading;
 
   void _adLoadingSafe(loading) {
@@ -49,7 +51,7 @@ class Redeem extends StatelessWidget {
   Future<void> _showAd(RewardedAd ad) async {
     await ad.withCustomSSVOptions(
       _authService.user,
-      options: {"deviceId": _authService.deviceId},
+      options: {"deviceId": _deviceMetadataService.deviceId},
     );
 
     ad
@@ -72,6 +74,7 @@ class Redeem extends StatelessWidget {
           Mock.admobAddTryAdCallback(
             _functionsService,
             _authService,
+            _deviceMetadataService,
             ad.adUnitId,
             reward,
           );

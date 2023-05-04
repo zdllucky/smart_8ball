@@ -41,6 +41,7 @@ dependencies:
   record: ^4.4.4
   google_mobile_ads: ^2.4.0
   firebase_crashlytics: ^3.1.1
+  crypto: ^3.0.3
   
   
 dev_dependencies:

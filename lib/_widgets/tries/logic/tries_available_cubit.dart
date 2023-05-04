@@ -10,15 +10,17 @@ import 'package:smart_8ball/_support/firestore/__.dart';
 class TriesAvailableCubit
     extends Cubit<DocumentSnapshot<TriesAvailableModel>?> {
   final TriesAvailableRepo _triesAvailableRepo;
-  final AuthService _authService;
+  final DeviceMetadataService _deviceMetadataService;
   final AuthCubit _authCubit;
   String? userId;
   StreamSubscription? _docSubscription;
   StreamSubscription? _authSubscription;
 
   TriesAvailableCubit(
-      this._authCubit, this._triesAvailableRepo, this._authService)
-      : super(null) {
+    this._authCubit,
+    this._triesAvailableRepo,
+    this._deviceMetadataService,
+  ) : super(null) {
     _authSubscription = _authCubit.stream.listen((user) async {
       userId = user?.uid;
 
@@ -32,7 +34,9 @@ class TriesAvailableCubit
     await _docUnsubscribe();
 
     if (userId != null) {
-      final id = _authCubit.state!.isAnonymous ? _authService.deviceId : userId;
+      final id = _authCubit.state!.isAnonymous
+          ? _deviceMetadataService.deviceId
+          : userId;
 
       if (id != null) {
         _docSubscription =

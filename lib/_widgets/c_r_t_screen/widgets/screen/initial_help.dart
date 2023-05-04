@@ -60,7 +60,7 @@ class _InitialHelpState extends State<InitialHelp>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CRTGlowText(
-                    'Swipe down to type question',
+                    'Swipe down to \ntype question',
                     height: 1.1,
                     blurRadius: widget.animation.value.abs(),
                   ),

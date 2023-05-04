@@ -47,7 +47,7 @@ class AdmobService {
     await RewardedAd.load(
         adUnitId:
             AdIdentifiers.addTryAd.decide(Mode.isEmulator, Platform.isIOS),
-        request: const AdRequest(),
+        request: const AdRequest(httpTimeoutMillis: 10000),
         rewardedAdLoadCallback: callback);
   }
 }

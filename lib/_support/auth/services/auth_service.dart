@@ -1,13 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
-
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:smart_8ball/_support/analytics/__.dart';
 import 'package:smart_8ball/_support/app_root/__.dart';
+import 'package:smart_8ball/_support/auth/__.dart';
 
 import '../../firestore/__.dart';
 
@@ -16,15 +12,18 @@ class AuthService {
   final CrashlyticsService _crashlyticsService;
   final AnalyticsService _analyticsService;
   final AnonymousUserLinksRepo _anonymousUserLinksRepo;
-  String? _deviceId;
+  final DeviceMetadataService _deviceMetadataService;
   bool _isInitialized = false;
 
   FirebaseAuth get provider => FirebaseAuth.instance;
   User? get user => provider.currentUser;
-  String? get deviceId => _deviceId;
 
-  AuthService(this._anonymousUserLinksRepo, this._analyticsService,
-      this._crashlyticsService);
+  AuthService(
+    this._anonymousUserLinksRepo,
+    this._analyticsService,
+    this._crashlyticsService,
+    this._deviceMetadataService,
+  );
 
   Future<void> init() async {
     if (_isInitialized) return;
@@ -32,14 +31,13 @@ class AuthService {
 
     // Connect to the firebase auth emulator if in debug mode
     if (Mode.isEmulator) await provider.useAuthEmulator('192.168.31.149', 9099);
-    _deviceId = await _getDeviceId();
 
     // If the user is not signed in, sign them in anonymously
     await signInAnonymously(resetSession: kDebugMode);
   }
 
   Future<void> signInAnonymously({bool resetSession = true}) async {
-    final dId = await _getDeviceId();
+    final dId = _deviceMetadataService.deviceId;
     if (resetSession) await provider.signOut();
     await provider.signInAnonymously();
 
@@ -60,28 +58,5 @@ class AuthService {
       deviceId: dId,
       userId: provider.currentUser!.uid,
     );
-
-    _deviceId = dId;
-  }
-
-  String _generateRandomString(int length) {
-    final random = Random.secure();
-    final values = List<int>.generate(length, (i) => random.nextInt(256));
-    return base64Url.encode(values).substring(0, length);
-  }
-
-  Future<String> _getDeviceId() async {
-    String? deviceId;
-    final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-
-    if (Platform.isAndroid) {
-      final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      deviceId = androidInfo.fingerprint;
-    } else if (Platform.isIOS) {
-      final IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      deviceId = iosInfo.identifierForVendor;
-    }
-
-    return deviceId ?? _generateRandomString(32);
   }
 }
