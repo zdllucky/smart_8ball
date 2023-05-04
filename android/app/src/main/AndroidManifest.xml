@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zdllucky.smart_8ball">
-   <application
-        android:label="smart_8ball"
+    package="quest.ponder8.ponder8">
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <application
+        android:label="ponder8"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

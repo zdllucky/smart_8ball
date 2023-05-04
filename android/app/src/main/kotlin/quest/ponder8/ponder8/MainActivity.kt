@@ -1,4 +1,4 @@
-package quest.ponder8.smart_8ball
+package quest.ponder8.ponder8
 
 import io.flutter.embedding.android.FlutterActivity
 
