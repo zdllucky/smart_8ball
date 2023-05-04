@@ -13,7 +13,7 @@ class FunctionsService {
   late final Dio _authDio;
   final TokenInterceptor _tokenInterceptor;
   String get baseUrl => Mode.isEmulator
-      ? 'http://127.0.0.1:5002/smart-8ball/us-central1/app/'
+      ? 'http://${const String.fromEnvironment('EMULATOR_REMOTE_HOST', defaultValue: "127.0.0.1")}:5002/smart-8ball/us-central1/app/'
       : 'https://us-central1-smart-8ball.cloudfunctions.net/app/';
   Dio get client => _authDio;
   Dio get createClient => Dio();
