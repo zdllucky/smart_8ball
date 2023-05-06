@@ -47,7 +47,7 @@ export const get = basicFactory
         // Get the doc id from the custom_data
         const { deviceId } = JSON.parse(custom_data);
 
-        isEmulator() &&
+        isEmulator &&
           logger.debug(`deviceId: ${deviceId}, user_id: ${user_id}`);
 
         // Check if the doc with id = device_id exists in the 'anonymousUserLinks' collection and doc with id = user_id is in the linksTo collection
@@ -59,7 +59,7 @@ export const get = basicFactory
           .doc(user_id)
           .get();
 
-        isEmulator() && logger.debug(`userLink: ${userLink}`);
+        isEmulator && logger.debug(`userLink: ${userLink}`);
 
         // If the user is anonymous, then the 'anonymousUserLinks' collection should contain a document with the user_id
         if (!userLink.exists) throw new Error("Anonymous user not found");

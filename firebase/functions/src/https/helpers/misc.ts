@@ -14,5 +14,5 @@ export const getFullUrlFromReq = (req: Request) => {
   return `${protocol}://${host}${originalUrl}`;
 };
 
-export const isEmulator = (): boolean =>
-  !!JSON.parse(process.env.FIREBASE_CONFIG || "{}").emulators;
+export const isEmulator = !!JSON.parse(process.env.FIREBASE_CONFIG || "{}")
+  .emulators;

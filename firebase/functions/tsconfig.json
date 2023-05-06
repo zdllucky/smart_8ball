@@ -5,6 +5,7 @@
     "noUnusedLocals": true,
     "noImplicitAny": false,
     "outDir": "lib",
+    "useUnknownInCatchVariables": false,
     "esModuleInterop": true,
     "sourceMap": true,
     "strict": true,
