@@ -11,37 +11,22 @@ export const post = authFactory.build({
     input: { question },
     options: {
       user,
-      service: { openAI, resources },
+      service: { openAI, resources, user: userService },
     },
   }) => {
-    const { userIrDeviceId } = await getUserOrDeviceId(user);
+    const { userOrDeviceId } = await userService.getUserOrDeviceId(user.uid);
 
-    await resources.addBasicTriesAmount(userIrDeviceId, -1);
+    await resources.addBasicTriesAmount(userOrDeviceId, -1);
 
     try {
       const answer = await openAI.getAnonymousModel3Dot5TurboAnswer(question);
 
       return { answer };
     } catch (e) {
-      await resources.addBasicTriesAmount(userIrDeviceId, 1, {
+      await resources.addBasicTriesAmount(userOrDeviceId, 1, {
         allowNegative: true,
       });
       throw e;
     }
   },
 });
-
-const getUserOrDeviceId = async (user: DecodedIdToken) => {
-  let userIrDeviceId: string;
-  let isDeviceId: boolean;
-
-  // Check if the user is anonymous
-  if (user.provider_id === "anonymous") {
-    userIrDeviceId = user.deviceId;
-    isDeviceId = true;
-  } else {
-    throw createHttpError(400, "Unimplemented");
-  }
-
-  return { userIrDeviceId, isDeviceId };
-};

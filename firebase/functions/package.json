@@ -6,7 +6,7 @@
     "build": "tsc",
     "build:watch": "tsc -w",
     "serve": "npm run build && firebase emulators:start --only functions",
-    "emulator:all": "firebase emulators:start --import=../.sample_data --export-on-exit",
+    "emulator:all": "FIREBASE_ENV=emulator firebase emulators:start --import=../.sample_data --export-on-exit",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
