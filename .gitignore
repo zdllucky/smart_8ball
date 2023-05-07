@@ -52,3 +52,4 @@ sandbox
 !*.secret
 firebase/functions/src/https/routes/admob/consts/secrets.prod.json
 firebase/functions/src/https/helpers/envs/sa.prod.json
+firebase/functions/src/services/openAI/env/secrets.prod.json

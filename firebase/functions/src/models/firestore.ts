@@ -4,7 +4,7 @@ const SubjectTypeModel = z.enum(["deviceId", "userId"]);
 export const Collections = {
   anonymousUserLinks: {
     name: "anonymousUserLinks",
-    documentModel: z.object({ linksTo: z.string().array() }),
+    documentModel: z.object({ linksTo: z.any() }),
   },
   userLink: {
     name: "linksTo",
