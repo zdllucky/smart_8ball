@@ -1,7 +1,6 @@
-import { Collections } from "../../../models/firestore";
+import { createHttpError } from "express-zod-api";
 import { basicFactory } from "../../helpers/factories";
 import { z } from "zod";
-import { isEmulator } from "../../helpers/misc";
 import headersProviderMiddleware from "../../middlewares/zod/headers";
 
 export const get = basicFactory
@@ -25,15 +24,18 @@ export const get = basicFactory
     async handler({
       input: { user_id, custom_data },
       logger,
-      options: { admin, headers },
+      options: {
+        service: { user, resources },
+        headers,
+      },
     }) {
-      // Check header.user-agent to be 'Google-AdMob-Reward-Verification'
-      if (
-        typeof headers["user-agent"] === "string" &&
-        headers["user-agent"].toLowerCase() !==
-          "google-admob-reward-verification"
-      ) {
-        throw Error("Error validating origin");
+      try {
+        validateHeaders(
+          headers,
+          new Map([["user-agent", "google-admob-reward-verification"]])
+        );
+      } catch (e) {
+        throw createHttpError(400, `Error validating origin. ${e.message}`);
       }
 
       // Check if the request is a test request
@@ -41,48 +43,21 @@ export const get = basicFactory
         logger.debug("Test request received");
         return {};
       }
-      // Check whether user is anonymous or not
-      const user = await admin.auth().getUser(user_id);
-      if (user.providerData.length === 0) {
-        // Get the doc id from the custom_data
-        const { deviceId } = JSON.parse(custom_data);
 
-        isEmulator &&
-          logger.debug(`deviceId: ${deviceId}, user_id: ${user_id}`);
+      const { userOrDeviceId } = await user.getUserOrDeviceId(user_id);
 
-        // Check if the doc with id = device_id exists in the 'anonymousUserLinks' collection and doc with id = user_id is in the linksTo collection
-        const userLink = await admin
-          .firestore()
-          .collection(Collections.anonymousUserLinks.name)
-          .doc(deviceId)
-          .collection("linksTo")
-          .doc(user_id)
-          .get();
-
-        isEmulator && logger.debug(`userLink: ${userLink}`);
-
-        // If the user is anonymous, then the 'anonymousUserLinks' collection should contain a document with the user_id
-        if (!userLink.exists) throw new Error("Anonymous user not found");
-
-        // Add +1 to triesAvailable.basicTries for doc with id = device_id
-        await admin.firestore().runTransaction(async (transaction) => {
-          const doc = admin
-            .firestore()
-            .collection(Collections.triesAvailable.name)
-            .doc(deviceId);
-
-          const triesAvailable =
-            (await doc.get()).data()?.resources.basicTries ?? 0;
-
-          transaction.update(doc, {
-            resources: {
-              basicTries: triesAvailable + 1,
-            },
-          });
-        });
-      }
-      // TODO: If the user is not anonymous, then add +1 to triesAvailable.basicTries for doc with id = user_id
+      await resources.addBasicTriesAmount(userOrDeviceId, 1);
 
       return {};
     },
   });
+
+const validateHeaders = (headers, map: Map<string, string>) => {
+  for (const [key, value] of map) {
+    if (
+      typeof headers[key] !== "string" ||
+      headers[key].toLowerCase() !== value
+    )
+      throw Error(`Invalid header ${key}`);
+  }
+};
