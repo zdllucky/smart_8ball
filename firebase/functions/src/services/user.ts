@@ -4,7 +4,7 @@ import { FirebaseAdmin } from "./admin";
 const userService = ({ admin }: { admin: FirebaseAdmin }) => {
   const getUserOrDeviceId = async (
     uid: string,
-    { deviceId }: { deviceId?: string }
+    { deviceId }: { deviceId?: string } = {}
   ) => {
     let userOrDeviceId: string;
     let isDeviceId: boolean;
