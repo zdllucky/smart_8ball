@@ -2,6 +2,7 @@ import { DependsOnMethod } from "express-zod-api";
 import * as versionRoute from "./version";
 import * as openApiRoute from "./openapi";
 import * as admobAddTryAdCallbackRoute from "./admob/addTryAdCallback";
+import * as askRoute from "./question/basic";
 
 const d = (r: typeof DependsOnMethod.constructor.arguments) =>
   new DependsOnMethod(r);
@@ -13,6 +14,9 @@ export default {
     // ball: {
     //   acquireDaily: d(acquireDailyRoute),
     // },
+    question: {
+      ask: d(askRoute),
+    },
     admob: {
       adTryAdCallback: d(admobAddTryAdCallbackRoute),
     },

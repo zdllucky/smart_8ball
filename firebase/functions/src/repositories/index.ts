@@ -1,8 +1,8 @@
 import { createHttpError } from "express-zod-api";
-import _admin from "../services/admin";
 import { Collections } from "../models/firestore";
+import admin, { FirebaseAdmin } from "../services/admin";
 
-const anonymousUserLinks = ({ admin }: { admin: typeof _admin }) => {
+const anonymousUserLinks = ({ admin }: { admin: FirebaseAdmin }) => {
   const aULMeta = Collections.anonymousUserLinks;
   const uLMeta = Collections.userLink;
 
@@ -26,7 +26,7 @@ const anonymousUserLinks = ({ admin }: { admin: typeof _admin }) => {
   return { reference, linksToReference };
 };
 
-const triesAvailable = ({ admin }: { admin: typeof _admin }) => {
+const triesAvailable = ({ admin }: { admin: FirebaseAdmin }) => {
   const meta = Collections.triesAvailable;
   const reference = admin
     .firestore()
@@ -49,6 +49,6 @@ const triesAvailable = ({ admin }: { admin: typeof _admin }) => {
 };
 
 export default {
-  anonymousUserLinks: anonymousUserLinks({ admin: _admin }),
-  triesAvailable: triesAvailable({ admin: _admin }),
+  anonymousUserLinks: anonymousUserLinks({ admin }),
+  triesAvailable: triesAvailable({ admin }),
 };

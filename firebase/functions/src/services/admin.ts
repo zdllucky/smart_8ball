@@ -12,4 +12,6 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
 });
 
+export type FirebaseAdmin = typeof admin;
+
 export default admin;

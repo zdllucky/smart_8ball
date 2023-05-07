@@ -1,13 +1,13 @@
 import { createHttpError } from "express-zod-api";
 import repositories from "../repositories";
-import _admin from "./admin";
+import { FirebaseAdmin } from "./admin";
 
 const resourcesService = ({
   triesRepo,
   admin,
 }: {
   triesRepo: typeof repositories.triesAvailable;
-  admin: typeof _admin;
+  admin: FirebaseAdmin;
 }) => {
   const addBasicTriesAmount = async (
     userOrDeviceId: string,
