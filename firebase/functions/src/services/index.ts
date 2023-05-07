@@ -3,6 +3,7 @@ import admin from "./admin";
 import openAIService from "./openAI";
 import logger from "./logger";
 import resourcesService from "./resources";
+import userService from "./user";
 
 export default {
   resources: resourcesService({
@@ -12,4 +13,5 @@ export default {
   openAI: openAIService({ logger }),
   admin,
   logger,
+  user: userService({ admin }),
 };
