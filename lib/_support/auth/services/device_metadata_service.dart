@@ -20,8 +20,8 @@ class DeviceMetadataService {
     final bytes = utf8.encode(input); // Convert the input string to bytes
     final digest =
         sha256.convert(bytes); // Compute the hash (SHA-256 in this case)
-    return base64.encode(digest.bytes).replaceAll(
-        '[^0-9a-zA-Z]*', '-'); // Convert the hash to a base64-encoded string
+    return base64.encode(digest.bytes).replaceAll(RegExp(r'[^0-9a-zA-Z]+'),
+        '-'); // Convert the hash to a base64-encoded string
   }
 
   String get deviceId => _deviceId!;

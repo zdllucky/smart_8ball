@@ -11,9 +11,10 @@ class AuthCubit extends Cubit<User?> {
   final closers = <Function>[];
 
   AuthCubit(this._authService) : super(null) {
-    closers.add(_authService.provider.authStateChanges().listen(emit).cancel);
-    closers.add(_authService.provider.idTokenChanges().listen(emit).cancel);
-    closers.add(_authService.provider.userChanges().listen(emit).cancel);
+    closers
+      ..add(_authService.provider.authStateChanges().listen(emit).cancel)
+      ..add(_authService.provider.idTokenChanges().listen(emit).cancel)
+      ..add(_authService.provider.userChanges().listen(emit).cancel);
   }
 
   @override
