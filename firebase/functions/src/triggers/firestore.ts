@@ -16,3 +16,15 @@ export const onCreateUserLinkDocument = runWith({ failurePolicy: true })
       })
     );
   });
+
+export const onLinkUserToDevice = runWith({
+  failurePolicy: true,
+})
+  .firestore.document(
+    `${Collections.anonymousUserLinks.name}/{deviceId}/${Collections.userLink.name}/{userId}`
+  )
+  .onCreate(async (change, context) => {
+    const { deviceId, userId } = context.params;
+
+    return admin.auth().setCustomUserClaims(userId, { deviceId });
+  });
