@@ -1,9 +1,9 @@
 import { createHttpError } from "express-zod-api";
 import { Configuration, OpenAIApi } from "openai";
 import { openAIAPIKey, systemInstructionText } from "./env/secrets.prod.json";
-import _logger from "./../logger";
+import { Logger } from "winston";
 
-const openAIService = ({ logger }: { logger: typeof _logger }) => {
+const openAIService = ({ logger }: { logger: Logger }) => {
   const configuration = new Configuration({
     apiKey: openAIAPIKey,
   });
