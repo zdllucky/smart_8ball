@@ -1,4 +1,5 @@
 import { runWith } from "firebase-functions";
+import repositories from "../repositories";
 import admin from "../services/admin";
 import { Collections } from "../models/firestore";
 
@@ -6,15 +7,13 @@ export const onCreateUserLinkDocument = runWith({ failurePolicy: true })
   .firestore.document(`${Collections.anonymousUserLinks.name}/{deviceId}`)
   .onCreate((snap, context) => {
     const { deviceId } = context.params;
-    const { name, documentModel } = Collections.triesAvailable;
-    const doc = admin.firestore().collection(name).doc(deviceId);
+    const { triesAvailable } = repositories;
+    const doc = triesAvailable.reference.doc(deviceId);
 
-    return doc.set(
-      documentModel.parse({
-        subjectType: "deviceId",
-        resources: { basicTries: 0 },
-      })
-    );
+    return doc.set({
+      subjectType: "deviceId",
+      resources: { basicTries: 0 },
+    });
   });
 
 export const onLinkUserToDevice = runWith({
