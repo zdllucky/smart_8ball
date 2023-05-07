@@ -2,7 +2,7 @@ import { attachRouting } from "express-zod-api";
 import { Express } from "express";
 import routing from "./routes";
 import * as process from "process";
-import logger from "./helpers/logger";
+import logger from "../services/logger";
 
 export let config: any;
 

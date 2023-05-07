@@ -1,5 +1,5 @@
 import { runWith } from "firebase-functions";
-import admin from "../https/helpers/admin";
+import admin from "../services/admin";
 import { Collections } from "../models/firestore";
 
 export const onCreateUserLinkDocument = runWith({ failurePolicy: true })
