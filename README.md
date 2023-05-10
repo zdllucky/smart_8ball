@@ -1,13 +1,22 @@
 # Ponder8 (Smart 8 Ball)
 
+
 ![Powered by firebase](https://img.shields.io/badge/Powered%20by-firebase-yellow?style=for-the-badge&logo=firebase)
 ![TypeScript](https://img.shields.io/badge/TypeScript-grey?style=for-the-badge&logo=typescript)
 ![CEL](https://img.shields.io/badge/CEL-grey?style=for-the-badge&logo=google)
+
 
 ![Powered by flutter](https://img.shields.io/badge/Powered%20by-flutter-blue?style=for-the-badge&logo=flutter) 
 ![Dart](https://img.shields.io/badge/Dart-grey?style=for-the-badge&logo=dart)
 
 ![Git Secret](https://img.shields.io/badge/Git%20Secret-Enabled-orange?style=for-the-badge&logo=git)
+
+![Powered by OpenAI](https://img.shields.io/badge/Powered%20by-OpenAI-mediumseagreen?style=for-the-badge&logo=openai) 
+![GPT3.5-Turbo](https://img.shields.io/badge/GPT3.5--turbo-grey?style=for-the-badge&logo=openai) 
+![Whisper](https://img.shields.io/badge/Whisper-grey?style=for-the-badge&logo=openai)
+
+![Google Ads Enabled](https://img.shields.io/badge/Google%20Ads-Enabled-blue?style=for-the-badge&logo=googleads)
+
 
 ## About
 
