@@ -12,9 +12,9 @@ class StartRecording extends BallActionEvent {
 class StartWriting extends BallActionEvent {}
 
 class SubmitWriting extends BallActionEvent {
-  final String text;
+  final String question;
 
-  SubmitWriting(this.text);
+  SubmitWriting(this.question);
 }
 
 class SubmitRecording extends BallActionEvent {}

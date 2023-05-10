@@ -15,6 +15,12 @@ class BallActionInitial extends BallActionState {
   BallActionInitial({this.reset = false});
 }
 
+class BallActionResult extends BallActionInitial {
+  final String answer;
+
+  BallActionResult(this.answer, {bool reset = false}) : super(reset: reset);
+}
+
 class BallActionRecording extends BallActionState {
   final double dy;
   final bool continues;

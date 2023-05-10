@@ -1,23 +1,32 @@
-import 'dart:ui';
-
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_8ball/_support/functions/__.dart';
+import 'package:smart_8ball/_widgets/alert/__.dart';
 
 part 'ball_action_event.dart';
+part 'ball_action_handler.dart';
 part 'ball_action_state.dart';
 
 @injectable
 class BallActionBloc extends Bloc<BallActionEvent, BallActionState> {
-  BallActionBloc() : super(BallActionInitial()) {
+  final FunctionsService _functionsService;
+  final AlertCubit _alertCubit;
+
+  BallActionBloc(this._functionsService, this._alertCubit)
+      : super(BallActionInitial()) {
     on<BallActionEvent>((
       event,
       emit,
-    ) {
+    ) async {
       switch (event.runtimeType) {
         case StartRecording:
           switch (state.runtimeType) {
             case BallActionInitial:
+              emit(BallActionRecording((event as StartRecording).side));
+              break;
+            case BallActionResult:
               emit(BallActionRecording((event as StartRecording).side));
               break;
             default:
@@ -25,18 +34,10 @@ class BallActionBloc extends Bloc<BallActionEvent, BallActionState> {
           }
           break;
         case ContinueRecordingOrSubmit:
-          if (state is BallActionRecording) {
-            final e = event as ContinueRecordingOrSubmit;
-
-            if (e.canSubmit && e.side > .7) {
-              emit(BallActionWriting());
-            } else {
-              emit(BallActionRecording(
-                event.side,
-                continues: true,
-              ));
-            }
-          }
+          _continueRecordingOrSubmitHandler(
+            event as ContinueRecordingOrSubmit,
+            emit,
+          );
           break;
         case StartWriting:
           if (state is BallActionRecording) {
@@ -49,11 +50,10 @@ class BallActionBloc extends Bloc<BallActionEvent, BallActionState> {
           }
           break;
         case SubmitWriting:
-          if (state is BallActionWriting) {
-            emit(BallActionSubmittingText((event as SubmitWriting).text));
-          } else {
-            emit(BallActionInitial(reset: true));
-          }
+          await _submitWritingCaseHandler(
+            event as SubmitWriting,
+            emit,
+          );
           break;
         case SubmitRecording:
           debugPrint('SubmitRecording: $state');

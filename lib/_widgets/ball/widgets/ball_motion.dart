@@ -41,9 +41,7 @@ class _BallMotionState extends State<BallMotion> {
         return BlocConsumer<BallActionBloc, BallActionState>(
           listener: (context, state) {
             if (state is BallActionInitial && state.reset) {
-              final addEvent = context.read<BallActionBloc>().add;
-
-              addEvent.call(BallWasReset());
+              context.read<BallActionBloc>().add(BallWasReset());
               _end(controller: controller);
             } else if (state is BallActionSubmittingText) {
               _onceBounceOnSubmit = true;

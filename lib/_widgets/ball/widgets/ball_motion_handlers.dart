@@ -81,7 +81,13 @@ extension on _BallMotionState {
   }
 
   Widget _ballScreenBuilder(context, animation) {
-    if (!haveTries) {
+    if (ballActionBloc.state is BallActionResult) {
+      return TextResponse(
+        (ballActionBloc.state as BallActionResult).answer,
+        animation: animation,
+      );
+    } else if (!haveTries &&
+        ballActionBloc.state is! BallActionSubmittingText) {
       return NoBattery(animation: animation);
     } else if (ballActionBloc.state is BallActionInitial) {
       return InitialHelp(animation: animation);

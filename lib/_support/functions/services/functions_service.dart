@@ -4,8 +4,11 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:smart_8ball/_support/app_root/__.dart';
+import 'package:smart_8ball/_support/functions/models/basic_answer_model.dart';
 
 import '../misc/interceptors/token_interceptor.dart';
+
+part 'question_extension.dart';
 
 @lazySingleton
 class FunctionsService {
@@ -26,6 +29,9 @@ class FunctionsService {
 
     _authDio = Dio(BaseOptions(
       baseUrl: baseUrl,
+      headers: {
+        'Content-Type': 'application/json',
+      },
     ))
       ..interceptors.add(_tokenInterceptor);
   }

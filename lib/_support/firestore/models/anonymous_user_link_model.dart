@@ -4,6 +4,7 @@ part 'anonymous_user_link_model.g.dart';
 
 @JsonSerializable()
 class AnonymousUserLinkModel {
+  // TODO: Remove obsolete linksTo param
   final Map<String, UserLink> linksTo;
 
   AnonymousUserLinkModel(this.linksTo);
