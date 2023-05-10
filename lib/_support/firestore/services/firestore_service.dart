@@ -10,7 +10,7 @@ class FirestoreService {
   Future<void> init() async {
     if (Mode.isEmulator) {
       provider.useFirestoreEmulator(
-          String.fromEnvironment('EMULATOR_REMOTE_HOST'), 8080);
+          const String.fromEnvironment('EMULATOR_REMOTE_HOST'), 8080);
       await provider.enableNetwork();
     }
     provider.settings = const Settings(persistenceEnabled: false);

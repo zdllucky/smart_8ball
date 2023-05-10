@@ -60,13 +60,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB0PZBn5MF9QSOQJ2xqiqnmBdnVqh3fxhM',
-    appId: '1:819882374666:ios:c3d8cc61b808e28a8591f3',
+    appId: '1:819882374666:ios:91646335fda4c68b8591f3',
     messagingSenderId: '819882374666',
     projectId: 'smart-8ball',
     databaseURL: 'https://smart-8ball-default-rtdb.firebaseio.com',
     storageBucket: 'smart-8ball.appspot.com',
-    iosClientId:
-        '819882374666-k1j472plgle392ddglkauidanudm1okr.apps.googleusercontent.com',
+    iosClientId: '819882374666-f52gkt8veg8qef631jfj2bmgp1n87b6g.apps.googleusercontent.com',
     iosBundleId: 'quest.ponder8.ponder8',
   );
 }
