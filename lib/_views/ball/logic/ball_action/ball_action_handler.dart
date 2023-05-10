@@ -1,7 +1,10 @@
 part of 'ball_action_bloc.dart';
 
 extension BallActionHandler on BallActionBloc {
-  Future<void> _submitWritingCaseHandler(SubmitWriting event, emit) async {
+  Future<void> _submitWritingCaseHandler(
+    SubmitWriting event,
+    emit,
+  ) async {
     if (state is BallActionWriting) {
       try {
         emit(BallActionSubmittingText(event.question));
@@ -29,11 +32,27 @@ extension BallActionHandler on BallActionBloc {
     }
   }
 
-  void _continueRecordingOrSubmitHandler(
-      ContinueRecordingOrSubmit event, emit) async {
+  Future<void> _continueRecordingOrSubmitHandler(
+    ContinueRecordingOrSubmit event,
+    emit,
+  ) async {
     if (state is BallActionRecording) {
       if (event.canSubmit && event.side > .7) {
         emit(BallActionWriting());
+      } else if (event.canSubmit && event.side < -.7) {
+        if (!await _recordService.isRecording) {
+          return;
+        }
+
+        final rec = await _recordService.stop(playRecord: kDebugMode);
+
+        // TODO: Implement submit recording
+
+        if (rec != null) {
+          emit(BallActionSubmittingAudio());
+        } else {
+          emit(BallActionInitial(reset: true));
+        }
       } else {
         emit(BallActionRecording(
           event.side,

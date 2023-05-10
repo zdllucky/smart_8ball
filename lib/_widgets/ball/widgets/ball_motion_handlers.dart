@@ -4,11 +4,13 @@ part of 'ball_motion.dart';
 
 extension on _BallMotionState {
   void _update(
-    Offset position,
+    Offset p,
     Size size,
   ) {
     /// Stop updating if the ball is in the process of writing or submitting
     if (_isPanAllowedByBallState) return;
+
+    final position = p.translate(size.width / -6, size.height / -8);
 
     /// Calculate screen position
     Offset tapPosition = Offset((2 * position.dx / size.width) - 1,
@@ -95,7 +97,8 @@ extension on _BallMotionState {
       return InitialHelp(animation: animation);
     } else if (ballActionBloc.state is BallActionRecording) {
       return Recording(animation: animation);
-    } else if (ballActionBloc.state is BallActionSubmittingText) {
+    } else if (ballActionBloc.state is BallActionSubmittingText ||
+        ballActionBloc.state is BallActionSubmittingAudio) {
       return LoadingAnswer(animation: animation);
     }
 
@@ -109,6 +112,9 @@ extension on _BallMotionState {
   bool get haveTries =>
       (triesAvailableCubit.state?.data()?.resources.basicTries ?? 0) > 0;
 
-  bool get _isPanAllowedByBallState => ballActionBloc.state
-      .isOneOf([BallActionStateWithSide, BallActionSubmittingText]);
+  bool get _isPanAllowedByBallState => ballActionBloc.state.isOneOf([
+        BallActionStateWithSide,
+        BallActionSubmittingText,
+        BallActionSubmittingAudio
+      ]);
 }
