@@ -30,13 +30,16 @@ class AuthService {
     _isInitialized = true;
 
     // Connect to the firebase auth emulator if in debug mode
-    if (Mode.isEmulator) await provider.useAuthEmulator('192.168.31.149', 9099);
+    if (Mode.isEmulator) {
+      await provider.useAuthEmulator(
+          const String.fromEnvironment('EMULATOR_REMOTE_HOST'), 9099);
+    }
 
     // If the user is not signed in, sign them in anonymously
     await signInAnonymously(resetSession: kDebugMode);
   }
 
-  Future<void> signInAnonymously({bool resetSession = true}) async {
+  Future<void> signInAnonymously({bool resetSession = false}) async {
     final dId = _deviceMetadataService.deviceId;
     if (resetSession) await provider.signOut();
     await provider.signInAnonymously();

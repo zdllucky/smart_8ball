@@ -25,7 +25,10 @@ class FunctionsService {
 
   @PostConstruct()
   void init() {
-    if (Mode.isEmulator) _provider.useFunctionsEmulator('192.168.31.149', 9099);
+    if (Mode.isEmulator) {
+      _provider.useFunctionsEmulator(
+          const String.fromEnvironment('EMULATOR_REMOTE_HOST'), 9099);
+    }
 
     _authDio = Dio(BaseOptions(
       baseUrl: baseUrl,
@@ -36,9 +39,9 @@ class FunctionsService {
       ..interceptors.add(_tokenInterceptor);
   }
 
-  /// Returns a [FutureOr] of [payload] if [predicate] returns true, otherwise an empty [Map].
-  FutureOr<Map<String, T>> _supply<T extends dynamic>(
-      FutureOr<bool> Function() predicate, Map<String, T> payload) async {
-    return await predicate() ? payload : {};
-  }
+  // /// Returns a [FutureOr] of [payload] if [predicate] returns true, otherwise an empty [Map].
+  // FutureOr<Map<String, T>> _supply<T extends dynamic>(
+  //     FutureOr<bool> Function() predicate, Map<String, T> payload) async {
+  //   return await predicate() ? payload : {};
+  // }
 }
