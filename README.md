@@ -1,17 +1,17 @@
 # Ponder8 (Smart 8 Ball)
 
-![Powered by firebase](https://img.shields.io/badge/Powered%20by-firebase-orange?style=for-the-badge&logo=firebase)
+![Powered by firebase](https://img.shields.io/badge/Powered%20by-firebase-yellow?style=for-the-badge&logo=firebase)
 ![TypeScript](https://img.shields.io/badge/TypeScript-grey?style=for-the-badge&logo=typescript)
 ![CEL](https://img.shields.io/badge/CEL-grey?style=for-the-badge&logo=google)
 
 ![Powered by flutter](https://img.shields.io/badge/Powered%20by-flutter-blue?style=for-the-badge&logo=flutter) 
 ![Dart](https://img.shields.io/badge/Dart-grey?style=for-the-badge&logo=dart)
 
-![Git Secret](https://img.shields.io/badge/Git%20Secret-Enabled-green?style=for-the-badge&logo=git)
+![Git Secret](https://img.shields.io/badge/Git%20Secret-Enabled-orange?style=for-the-badge&logo=git)
 
 ## About
 
-This project is a simple 8Ball that uses AI to answer your questions.
+This project is a simple 8Ball that uses AI to answer your questions. Contains firebase cloud setup and flutter application (iOS/ Android).
 
 ### Run the project locally
 
